@@ -131,7 +131,7 @@
           @yield('breadcrumb')
           </div>
         </div>
-          @yield('contenido')
+          @yield('contenido') <!-- @yield = dar definicion a una seccion de (blade = laravel), en este caso, se dice que aqui este div sera la seccion contenido-->
         </div>
         </div>
         <!-- /.container-fluid -->
