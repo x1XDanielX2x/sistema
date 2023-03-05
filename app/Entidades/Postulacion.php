@@ -5,13 +5,13 @@ namespace App\Entidades; //donde esta ubicado la entidad que estamos realizando,
 use DB;
 use Illuminate\Database\Eloquent\Model;
 
-class Cliente extends Model{
+class Sucursal extends Model{
 
-      protected $table = 'clientes';//nombre de la tabla en bbdd
+      protected $table = 'postulaciones';//nombre de la tabla en bbdd
       public $timestamps = false; //colocar fecha y hora ne la bbdd de la insersion, marcas de tiempo
 
       protected $fillable = [ //Campos(columnas) de la table 'clientes' en la BBDD
-            'idcliente','nombre','telefono','direccion','dni','correo','clave'
+            'idpostulacion','nombre','apellido','telefono','correo','cv'
       ];
 
       protected $hidden = []; //campos ocultos
@@ -20,40 +20,37 @@ class Cliente extends Model{
 
     public function obtenerTodos(){
         $sql="SELECT 
-                idcliente,
+                idpostulacion,
                 nombre,
+                apellido,
                 telefono,
-                direccion,
-                dni,
                 correo,
-                clave
-            FROM clientes ORDER BY nombre ASC";
+                cv
+            FROM postulaciones ORDER BY idpostulacion ASC";
 
         $lstRetorno = DB::select($sql);
         return $lstRetorno;
     }
 
-    public function obtenerPorId($idcliente){
+    public function obtenerPorId($idPostulacion){
         $sql="SELECT 
-                idcliente,
+                idpostulacion,
                 nombre,
+                apellido,
                 telefono,
-                direccion,
-                dni,
                 correo,
-                clave
-            FROM clientes WHERE idcliente = $idcliente";
+                cv
+            FROM postulaciones WHERE idpostulacion = $idPostulacion";
 
         $lstRetorno = DB::select($sql);
 
         if(count($lstRetorno) > 0){
-            $this->idcliente = $lstRetorno[0]->idcliente;
+            $this->idpostulacion = $lstRetorno[0]->idpostulacion;
             $this->nombre = $lstRetorno[0]->nombre;
+            $this->apellido = $lstRetorno[0]->apellido;
             $this->telefono = $lstRetorno[0]->telefono;
-            $this->direccion = $lstRetorno[0]->direccion;
-            $this->dni = $lstRetorno[0]->dni;
             $this->correo = $lstRetorno[0]->correo;
-            $this->clave = $lstRetorno[0]->clave;
+            $this->cv = $lstRetorno[0]->cv;
             return $this;
         }
         return null;
@@ -61,40 +58,37 @@ class Cliente extends Model{
     }
 
     public function guardar(){
-        $sql = "UPDATE clientes SET
+        $sql = "UPDATE postulaciones SET
                 nombre = '$this->nombre',
+                apellido = '$this-> apellido',
                 telefono = '$this->telefono',
-                direccion = '$this-> direccion',
-                dni = '$this -> dni',
                 correo = '$this -> correo',
-                clave = '$this -> clave'
-            WHERE idcliente=?"; //se refiere a que lo busca en al parametro siguiente :
-        $affected = DB::update($sql, [$this->idcliente]);
+                cv = '$this -> cv'
+            WHERE idpostulacion=?"; //se refiere a que lo busca en al parametro siguiente :
+        $affected = DB::update($sql, [$this->idpostulacion]);
     }
 
     public function eliminar(){
-        $sql = "DELETE FROM clientes WHERE
-                idcliente=?";
-        $affected = DB::delete($sql, [$this->idcliente]);
+        $sql = "DELETE FROM postulaciones WHERE
+                idpostulacion=?";
+        $affected = DB::delete($sql, [$this->idpostulacion]);
     }
     public function insertar(){
-        $sql="INSERT INTO clientes (
+        $sql="INSERT INTO postulaciones (
                 nombre,
+                apellido,
                 telefono,
-                direccion,
-                dni,
                 correo,
-                clave ) VALUES(
-                ?,?,?,?,?,?);";
+                cv ) VALUES(
+                ?,?,?,?,?);";
         $result = DB::insert($sql, [
             $this->nombre,
+            $this->apellido,
             $this->telefono,
-            $this->direccion,
-            $this->dni,
             $this->correo,
-            $this->clave,
+            $this->cv
         ]);
-        return $this->idcliente = DB::getPdo()->lastInsertId();
+        return $this->idpostulacion = DB::getPdo()->lastInsertId();
     }
 }
 ?>
