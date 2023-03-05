@@ -21,7 +21,7 @@ class Tipo_Producto extends Model{
     public function obtenerTodos(){
         $sql="SELECT 
                 idtipoproducto,
-                nombre,
+                nombre
             FROM tipo_productos ORDER BY nombre ASC";
 
         $lstRetorno = DB::select($sql);
@@ -31,7 +31,7 @@ class Tipo_Producto extends Model{
     public function obtenerPorId($idTipoProducto){
         $sql="SELECT 
                 idtipoproducto,
-                nombre,
+                nombre
             FROM tipo_productos WHERE idtipoproducto = $idTipoProducto";
 
         $lstRetorno = DB::select($sql);
@@ -47,7 +47,7 @@ class Tipo_Producto extends Model{
 
     public function guardar(){
         $sql = "UPDATE tipo_productos SET
-                nombre = '$this->nombre',
+                nombre = '$this->nombre'
             WHERE idtipoproducto=?"; //se refiere a que lo busca en al parametro siguiente :
         $affected = DB::update($sql, [$this->idtipoproducto]);
     }

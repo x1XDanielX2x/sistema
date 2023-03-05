@@ -21,7 +21,7 @@ class Estado_Pedido extends Model{
     public function obtenerTodos(){
         $sql="SELECT 
                 idestadopedido,
-                nombre,
+                nombre
             FROM estado_pedidos ORDER BY idestadopedido ASC";
 
         $lstRetorno = DB::select($sql);
@@ -31,7 +31,7 @@ class Estado_Pedido extends Model{
     public function obtenerPorId($idEstadoPedido){
         $sql="SELECT 
                 idestadopedido,
-                nombre,
+                nombre
             FROM estado_pedidos WHERE idestadopedido = $idEstadoPedido";
 
         $lstRetorno = DB::select($sql);
@@ -47,7 +47,7 @@ class Estado_Pedido extends Model{
 
     public function guardar(){
         $sql = "UPDATE estado_pedidos SET
-                nombre = '$this->nombre',
+                nombre = '$this->nombre'
             WHERE idestadopedido=?"; //se refiere a que lo busca en al parametro siguiente :
         $affected = DB::update($sql, [$this->idestadopedido]);
     }
