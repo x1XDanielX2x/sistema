@@ -5,7 +5,7 @@ namespace App\Entidades; //donde esta ubicado la entidad que estamos realizando,
 use DB;
 use Illuminate\Database\Eloquent\Model;
 
-class Sucursal extends Model{
+class Tipo_Producto extends Model{
 
       protected $table = 'tipo_productos';//nombre de la tabla en bbdd
       public $timestamps = false; //colocar fecha y hora ne la bbdd de la insersion, marcas de tiempo
