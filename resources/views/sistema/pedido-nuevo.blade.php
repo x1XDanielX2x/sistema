@@ -46,23 +46,29 @@ if (isset($msg)) {
                   <input type="hidden" id="id" name="id" class="form-control" value="{{$globalId}}" required>
                   <div class="form-group col-6">
                         <label>Cliente: *</label>
-                        <input type="text" id="txtTitulo" name="txtTitulo" class="form-control" value="" required>
+                        <select id="txtCliente" name="txtCliente" class="form-control" value="" required>
+                              <option value="" selected disabled>Seleccionar cliente</option>
+                        </select>
                   </div>
                   <div class="form-group col-6">
                         <label>Sucursal: *</label>
-                        <input type="text" id="txtTelefono" name="txtTelefono" class="form-control" value="" required>
+                        <select id="txtSucursal" name="txtSucursal" class="form-control" value="" required>
+                              <option value="" selected disabled>Seleccionar sucursal</option>
+                        </select>
                   </div>
                   <div class="form-group col-6">
                         <label>Estado del pedido: *</label>
-                        <input type="text" id="txtPrecio" name="txtPrecio" class="form-control" value="" required>
+                        <select id="txtEstadoPedido" name="txtEstadoPedido" class="form-control" value="" required>
+                              <option value="" selected disabled>Seleccionar estado</option>
+                        </select>
                   </div>
                   <div class="form-group col-6">
                         <label>Fecha: *</label>
-                        <input type="number" id="txtCantidad" name="txtCantidad" class="form-control" value="" required>
+                        <input type="date" id="txtFecha" name="txtFecha" class="form-control" value="" required>
                   </div>
                   <div class="form-group col-6">
                         <label>Total: *</label>
-                        <input type="email" id="txtCorreo" name="txtCorreo" class="form-control" value="" required>
+                        <input type="txt" id="txtTotal" name="txtTotal" class="form-control" value="" required>
                   </div>
             </div>
       </form>

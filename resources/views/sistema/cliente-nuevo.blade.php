@@ -60,8 +60,8 @@ if (isset($msg)) {
                         <input type="text" id="txtDireccion" name="txtDireccion" class="form-control" value="" required>
                   </div>
                   <div class="form-group col-6">
-                        <label>Numero Identificacion: *</label>
-                        <input type="text" id="txtCedula" name="txtCedula" class="form-control" value="" required>
+                        <label>Documento: *</label>
+                        <input type="text" id="txtDocumento" name="txtDocumento" class="form-control" value="" required>
                   </div>
                   <div class="form-group col-6">
                         <label>Correo: *</label>
@@ -69,7 +69,7 @@ if (isset($msg)) {
                   </div>
                   <div class="form-group col-6">
                         <label>Contraseña: *</label>
-                        <input type="text" id="txtPassword" name="txtPassword" class="form-control" value="" required>
+                        <input type="password" id="txtClave" name="txtClave" class="form-control" value="" required>
                   </div>
             </div>
       </form>

@@ -58,11 +58,11 @@ if (isset($msg)) {
                   </div>
                   <div class="form-group col-6">
                         <label>Mapa: *</label>
-                        <input type="number" id="txtMapa" name="txtMapa" class="form-control" value="" required>
+                        <input type="text" id="txtMapa" name="txtMapa" class="form-control" value="" required>
                   </div>
                   <div class="form-group col-6">
                         <label>Horario: *</label>
-                        <input type="email" id="txtHorario" name="txtHorario" class="form-control" value="" required>
+                        <input type="txt" id="txtHorario" name="txtHorario" class="form-control" value="" required>
                   </div>
             </div>
       </form>

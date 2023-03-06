@@ -50,7 +50,9 @@ if (isset($msg)) {
                   </div>
                   <div class="form-group col-6">
                         <label>Tipo producto: *</label>
-                        <input type="text" id="txtTelefono" name="txtTelefono" class="form-control" value="" required>
+                        <select id="txtTipoProducto" name="txtTipoProducto" class="form-control" value="" required>
+                              <option value="" selected disabled>Seleccionar Tipo Producto</option>
+                        </select>
                   </div>
                   <div class="form-group col-6">
                         <label>Precio: *</label>
@@ -62,12 +64,12 @@ if (isset($msg)) {
                   </div>
                   <div class="form-group col-6">
                         <label>Descripcion: *</label>
-                        <input type="email" id="txtCorreo" name="txtCorreo" class="form-control" value="" required>
+                        <input type="text" id="txtDescripcion" name="txtDescripcion" class="form-control" value="" required>
                   </div>
-                  <div class="form-group col-6">
-                        <label>Imagen: *</label>
-                        <input type="text" id="txtPassword" name="txtPassword" class="form-control" value="" required>
-                  </div>
+                  <div class="col-6 form-group">
+                    <label for="fileImagen">Imagen:*</label>
+                    <input type="file" class="form-control-file" name="archivo" id="imagen">
+                </div>
             </div>
       </form>
       <script>
