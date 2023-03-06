@@ -11,7 +11,7 @@ class Estado_Pedido extends Model{
       public $timestamps = false; //colocar fecha y hora ne la bbdd de la insersion, marcas de tiempo
 
       protected $fillable = [ //Campos(columnas) de la table 'clientes' en la BBDD
-            'idestadopedido','nombre'
+            'isestadopedido','nombre'
       ];
 
       protected $hidden = []; //campos ocultos
@@ -20,9 +20,9 @@ class Estado_Pedido extends Model{
 
     public function obtenerTodos(){
         $sql="SELECT 
-                idestadopedido,
+                isestadopedido,
                 nombre
-            FROM estado_pedidos ORDER BY idestadopedido ASC";
+            FROM estado_pedidos ORDER BY isestadopedido ASC";
 
         $lstRetorno = DB::select($sql);
         return $lstRetorno;
@@ -30,14 +30,14 @@ class Estado_Pedido extends Model{
 
     public function obtenerPorId($idEstadoPedido){
         $sql="SELECT 
-                idestadopedido,
+                isestadopedido,
                 nombre
-            FROM estado_pedidos WHERE idestadopedido = $idEstadoPedido";
+            FROM estado_pedidos WHERE isestadopedido = $idEstadoPedido";
 
         $lstRetorno = DB::select($sql);
 
         if(count($lstRetorno) > 0){
-            $this->idestadopedido = $lstRetorno[0]->idestadopedido;
+            $this->isestadopedido = $lstRetorno[0]->isestadopedido;
             $this->nombre = $lstRetorno[0]->nombre;
             return $this;
         }
@@ -48,14 +48,14 @@ class Estado_Pedido extends Model{
     public function guardar(){
         $sql = "UPDATE estado_pedidos SET
                 nombre = '$this->nombre'
-            WHERE idestadopedido=?"; //se refiere a que lo busca en al parametro siguiente :
-        $affected = DB::update($sql, [$this->idestadopedido]);
+            WHERE isestadopedido=?"; //se refiere a que lo busca en al parametro siguiente :
+        $affected = DB::update($sql, [$this->isestadopedido]);
     }
 
     public function eliminar(){
         $sql = "DELETE FROM estado_pedidos WHERE
                 idestadopedido=?";
-        $affected = DB::delete($sql, [$this->idestadopedido]);
+        $affected = DB::delete($sql, [$this->isestadopedido]);
     }
     public function insertar(){
         $sql="INSERT INTO estado_pedidos (
@@ -64,7 +64,7 @@ class Estado_Pedido extends Model{
         $result = DB::insert($sql, [
             $this->nombre
         ]);
-        return $this->idestadopedido = DB::getPdo()->lastInsertId();
+        return $this->isestadopedido = DB::getPdo()->lastInsertId();
     }
 }
 ?>

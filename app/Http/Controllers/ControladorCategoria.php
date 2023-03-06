@@ -27,7 +27,7 @@ class ControladorCategoria extends Controller{
     
             for ($i = $inicio; $i < count($aCategorias) && $cont < $registros_por_pagina; $i++) {
                 $row = array();
-                $row[] = '<a href="/admin/postulaciones/' . $aCategorias[$i]->idpostulacion . '">' . $aCategorias[$i]->nombre . '</a>';
+                $row[] = '<a href="/admin/categorias/' . $aCategorias[$i]->idtipoproducto . '">' . $aCategorias[$i]->nombre . '</a>';
                 $cont++;
                 $data[] = $row;
             }

@@ -59,7 +59,7 @@ class Rubro extends Model{
 
         );
         $sql = "SELECT DISTINCT
-                idrubro,
+                idrublo,
                 nombre
             FROM rublos
                 WHERE 1=1

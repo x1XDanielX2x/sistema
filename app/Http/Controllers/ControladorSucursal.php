@@ -47,10 +47,10 @@ class ControladorSucursal extends Controller{
 
         public function Nuevo(){
 
-            $titulo = "Nuevo Producto";
+            $titulo = "Nueva Sucursal";
 
 
-            return view('sistema.producto-nuevo', compact("titulo", "aCategorias"));
+            return view('sistema.sucursal-nuevo', compact("titulo", "aCategorias"));
       }
 
       public function guardar(Request $request){

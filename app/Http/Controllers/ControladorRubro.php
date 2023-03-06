@@ -10,7 +10,7 @@ class ControladorRubro extends Controller{
 
       public function index(){
             $titulo = "Listado de rubros";
-            return view("sistema.rubros-listado", compact("titulo"));
+            return view("sistema.rubro-listado", compact("titulo"));
         }
     
         public function cargarGrilla(){
@@ -28,7 +28,7 @@ class ControladorRubro extends Controller{
     
             for ($i = $inicio; $i < count($aRubros) && $cont < $registros_por_pagina; $i++) {
                 $row = array();
-                $row[] = '<a href="/admin/postulaciones/' . $aRubros[$i]->idrublo . '">' . $aRubros[$i]->nombre . '</a>';
+                $row[] = '<a href="/admin/rubros/' . $aRubros[$i]->idrublo . '">' . $aRubros[$i]->nombre . '</a>';
                 $cont++;
                 $data[] = $row;
             }

@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 use App\Entidades\Pedido;
+use App\Entidades\Cliente;
+use App\Entidades\Sucursal;
+use App\Entidades\Estado_Pedido;
 use Illuminate\http\Request;
 require app_path() . '/start/constants.php';
 
@@ -48,7 +51,17 @@ class ControladorPedido extends Controller{
           public function Nuevo(){
     
                 $titulo = "Nuevo Pedido"; 
-                return view('sistema.pedido-nuevo', compact("titulo"));
+
+                $cliente = new Cliente();
+                $aClientes = $cliente->obtenerTodos();
+
+                $sucursal = new Sucursal();
+                $aSucursales = $sucursal->obtenerTodos();
+
+                $estadopedido = new Estado_Pedido();
+                $aEstadoPedidos = $estadopedido->obtenerTodos();
+
+                return view('sistema.pedido-nuevo', compact("titulo", "aClientes","aSucursales", "aEstadoPedidos"));
           }
     
           public function guardar(Request $request){
@@ -84,7 +97,7 @@ class ControladorPedido extends Controller{
                 $pedido = new Pedido();
                 $pedido->obtenerPorId($id);
         
-                return view('sistema.postulacion-nuevo', compact('msg', 'postulacion', 'titulo')) .'?id='. $pedido->idpedido;
+                return view('sistema.pedido-nuevo', compact('msg', 'pedido', 'titulo')) .'?id='. $pedido->idpedido;
             }
 
 }

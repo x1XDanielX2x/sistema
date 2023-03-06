@@ -70,27 +70,27 @@ class Pedido extends Model{
     {
         $request = $_REQUEST;
         $columns = array(
-            0 => 'cliente',
-            1 => 'sucursal',
-            2 => 'estadopedido',
-            3 => 'fecha',
+            0 => 'fk_idsucursal',
+            1 => 'fk_idestadopedido',
+            2 => 'fecha',
+            3 => 'total',
         );
         $sql = "SELECT DISTINCT
-                idcliente,
-                fk_idcliente,
+                idpedido,
                 fk_idsucursal,
                 fk_idestadopedido,
-                fecha
+                fecha,
+                total
             FROM pedidos
                 WHERE 1=1
                 ";
 
         //Realiza el filtrado
         if (!empty($request['search']['value'])) {
-            $sql .= " AND ( fk_idcliente LIKE '%" . $request['search']['value'] . "%' ";
-            $sql .= " OR fk_idsucursal LIKE '%" . $request['search']['value'] . "%' ";
-            $sql .= " fk_idestadopedido LIKE '%" . $request['search']['value'] . "%' )";
-            $sql .= " correo LIKE '%" . $request['search']['value'] . "%' )";
+            $sql .= " AND ( fk_idsucursal LIKE '%" . $request['search']['value'] . "%' ";
+            $sql .= " OR fk_idestadopedido LIKE '%" . $request['search']['value'] . "%' ";
+            $sql .= " fecha LIKE '%" . $request['search']['value'] . "%' )";
+            $sql .= " total LIKE '%" . $request['search']['value'] . "%' )";
         }
         $sql .= " ORDER BY " . $columns[$request['order'][0]['column']] . "   " . $request['order'][0]['dir'];
 
