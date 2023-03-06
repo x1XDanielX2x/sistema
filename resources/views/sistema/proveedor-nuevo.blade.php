@@ -58,7 +58,7 @@ if (isset($msg)) {
                   </div>
                   <div class="form-group col-6">
                         <label>Rubro: *</label>
-                        <input type="email" id="txtIDrubro" name="txtIDrubro" class="form-control" value="" required>
+                        <input type="email" id="txtIdRubro" name="txtIdRubro" class="form-control" value="" required>
                   </div>
             </div>
       </form>

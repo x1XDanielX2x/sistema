@@ -16,13 +16,18 @@ class Tipo_Producto extends Model{
 
       protected $hidden = []; //campos ocultos
 
+      public function cargarFormulario($request){
+        $this->idtipoproducto = $request->input('id') != "0" ? $request->input('id') : $this->idcliente;
+        $this->nombre = $request->input('txtNombre');
+      }
+
       //metodos basicos
 
     public function obtenerTodos(){
         $sql="SELECT 
                 idtipoproducto,
                 nombre
-            FROM tipo_productos ORDER BY nombre ASC";
+            FROM tipo_productos ORDER BY idtipoproducto ASC";
 
         $lstRetorno = DB::select($sql);
         return $lstRetorno;
@@ -43,6 +48,30 @@ class Tipo_Producto extends Model{
         }
         return null;
 
+    }
+
+    public function obtenerFiltrado()
+    {
+        $request = $_REQUEST;
+        $columns = array(
+            0 => 'nombre',
+        );
+        $sql = "SELECT DISTINCT
+                idtipoproducto,
+                nombre
+            FROM tipo_productos
+                WHERE 1=1
+                ";
+
+        //Realiza el filtrado
+        if (!empty($request['search']['value'])) {
+            $sql .= " AND ( nombre LIKE '%" . $request['search']['value'] . "%' ";
+        }
+        $sql .= " ORDER BY " . $columns[$request['order'][0]['column']] . "   " . $request['order'][0]['dir'];
+
+        $lstRetorno = DB::select($sql);
+
+        return $lstRetorno;
     }
 
     public function guardar(){

@@ -16,6 +16,15 @@ class Postulacion extends Model{
 
       protected $hidden = []; //campos ocultos
 
+      public function cargarFormulario($request){
+        $this->idpostulacion = $request->input('id') != "0" ? $request->input('id') : $this->idpostulacion;
+        $this->nombre = $request->input('txtNombre');
+        $this->apellido = $request->input('txtApellido');
+        $this->telefono = $request->input('txtTelefono');
+        $this->correo = $request->input('txtCorreo');
+        $this->cv = $request->input('txtCv');
+      }
+
       //metodos basicos
 
     public function obtenerTodos(){
@@ -55,6 +64,39 @@ class Postulacion extends Model{
         }
         return null;
 
+    }
+
+    public function obtenerFiltrado()
+    {
+        $request = $_REQUEST;
+        $columns = array(
+            0 => 'nombre',
+            1 => 'apellido',
+            2 => 'correo',
+            3 => 'telefono',
+        );
+        $sql = "SELECT DISTINCT
+                idpostulacion,
+                nombre,
+                apellido,
+                telefono,
+                correo
+            FROM postulaciones
+                WHERE 1=1
+                ";
+
+        //Realiza el filtrado
+        if (!empty($request['search']['value'])) {
+            $sql .= " AND ( nombre LIKE '%" . $request['search']['value'] . "%' ";
+            $sql .= " OR apellido LIKE '%" . $request['search']['value'] . "%' ";
+            $sql .= " telefono LIKE '%" . $request['search']['value'] . "%' )";
+            $sql .= " correo LIKE '%" . $request['search']['value'] . "%' )";
+        }
+        $sql .= " ORDER BY " . $columns[$request['order'][0]['column']] . "   " . $request['order'][0]['dir'];
+
+        $lstRetorno = DB::select($sql);
+
+        return $lstRetorno;
     }
 
     public function guardar(){

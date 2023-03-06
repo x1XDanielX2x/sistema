@@ -3,14 +3,20 @@
 namespace App\Http\Controllers;
 use App\Entidades\Producto;
 use Illuminate\http\Request;
+use App\Entidades\Tipo_Producto;
 require app_path() . '/start/constants.php';
 
 
 class ControladorProducto extends Controller{
 
       public function Nuevo(){
+
             $titulo = "Nuevo Producto";
-            return view('sistema.producto-nuevo', compact("titulo"));
+
+            $categoria = new Tipo_Producto();
+            $aCategorias = $categoria->obtenerTodos();
+
+            return view('sistema.producto-nuevo', compact("titulo", "aCategorias"));
       }
 
       public function guardar(Request $request){

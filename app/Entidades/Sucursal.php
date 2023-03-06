@@ -16,6 +16,15 @@ class Sucursal extends Model{
 
       protected $hidden = []; //campos ocultos
 
+      public function cargarFormulario($request){
+        $this->idsucursal = $request->input('id') != "0" ? $request->input('id') : $this->idsucursal;
+        $this->nombre = $request->input('txtNombre');
+        $this->direccion = $request->input('txtDireccion');
+        $this->telefono = $request->input('txtTelefono');
+        $this->mapa = $request->input('txtMapa');
+        $this->horario = $request->input('txtHorario');
+      }
+
       //metodos basicos
 
     public function obtenerTodos(){
@@ -55,6 +64,39 @@ class Sucursal extends Model{
         }
         return null;
 
+    }
+
+    public function obtenerFiltrado()
+    {
+        $request = $_REQUEST;
+        $columns = array(
+            0 => 'nombre',
+            1 => 'direccion',
+            2 => 'telefono',
+            3 => 'horario',
+        );
+        $sql = "SELECT DISTINCT
+                idsucursal,
+                nombre,
+                telefono,
+                direccion,
+                horario
+            FROM sucursales
+                WHERE 1=1
+                ";
+
+        //Realiza el filtrado
+        if (!empty($request['search']['value'])) {
+            $sql .= " AND ( nombre LIKE '%" . $request['search']['value'] . "%' ";
+            $sql .= " OR telefono LIKE '%" . $request['search']['value'] . "%' ";
+            $sql .= " direccion LIKE '%" . $request['search']['value'] . "%' )";
+            $sql .= " horario LIKE '%" . $request['search']['value'] . "%' )";
+        }
+        $sql .= " ORDER BY " . $columns[$request['order'][0]['column']] . "   " . $request['order'][0]['dir'];
+
+        $lstRetorno = DB::select($sql);
+
+        return $lstRetorno;
     }
 
     public function guardar(){

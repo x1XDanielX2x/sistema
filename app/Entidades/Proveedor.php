@@ -16,6 +16,14 @@ class Proveedor extends Model{
 
       protected $hidden = []; //campos ocultos
 
+      public function cargarFormulario($request){
+        $this->idproveedor = $request->input('id') != "0" ? $request->input('id') : $this->idproveedor;
+        $this->nombre = $request->input('txtNombre');
+        $this->direccion = $request->input('txtDireccion');
+        $this->nit = $request->input('txtNit');
+        $this->fk_idrubro = $request->input('txtIdRubro');
+      }
+
       //metodos basicos
 
     public function obtenerTodos(){
@@ -24,8 +32,7 @@ class Proveedor extends Model{
                 nombre,
                 direccion,
                 nit,
-                fk_idrubro,
-                total
+                fk_idrubro
             FROM proveedores ORDER BY nombre DESC";
 
         $lstRetorno = DB::select($sql);
@@ -38,8 +45,7 @@ class Proveedor extends Model{
                 nombre,
                 direccion,
                 nit,
-                fk_idrubro,
-                total
+                fk_idrubro
             FROM proveedores WHERE idproveedor = $idProveedor";
 
         $lstRetorno = DB::select($sql);
@@ -54,6 +60,39 @@ class Proveedor extends Model{
         }
         return null;
 
+    }
+
+    public function obtenerFiltrado()
+    {
+        $request = $_REQUEST;
+        $columns = array(
+            0 => 'nombre',
+            1 => 'direccion',
+            2 => 'nit',
+            3 => 'rubro',
+        );
+        $sql = "SELECT DISTINCT
+                idproveedor,
+                nombre,
+                direccion,
+                nit,
+                fk_idrubro
+            FROM proveedores
+                WHERE 1=1
+                ";
+
+        //Realiza el filtrado
+        if (!empty($request['search']['value'])) {
+            $sql .= " AND ( nombre LIKE '%" . $request['search']['value'] . "%' ";
+            $sql .= " OR direccion LIKE '%" . $request['search']['value'] . "%' ";
+            $sql .= " nit LIKE '%" . $request['search']['value'] . "%' )";
+            $sql .= " fk_idrubro LIKE '%" . $request['search']['value'] . "%' )";
+        }
+        $sql .= " ORDER BY " . $columns[$request['order'][0]['column']] . "   " . $request['order'][0]['dir'];
+
+        $lstRetorno = DB::select($sql);
+
+        return $lstRetorno;
     }
 
     public function guardar(){

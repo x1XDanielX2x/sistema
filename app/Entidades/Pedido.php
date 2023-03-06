@@ -16,6 +16,15 @@ class Pedido extends Model{
 
       protected $hidden = []; //campos ocultos
 
+      public function cargarFormulario($request){
+        $this->idpedido = $request->input('id') != "0" ? $request->input('id') : $this->idpedido;
+        $this->fk_idcliente = $request->input('txtCliente');
+        $this->fk_idsucursal = $request->input('txtSucursal');
+        $this->fk_idestadopedido = $request->input('txtEstadoPedido');
+        $this->fecha = $request->input('txtFecha');
+        $this->total = $request->input('txtTotal');
+      }
+
       //metodos basicos
 
     public function obtenerTodos(){
@@ -55,6 +64,39 @@ class Pedido extends Model{
         }
         return null;
 
+    }
+
+    public function obtenerFiltrado()
+    {
+        $request = $_REQUEST;
+        $columns = array(
+            0 => 'cliente',
+            1 => 'sucursal',
+            2 => 'estadopedido',
+            3 => 'fecha',
+        );
+        $sql = "SELECT DISTINCT
+                idcliente,
+                fk_idcliente,
+                fk_idsucursal,
+                fk_idestadopedido,
+                fecha
+            FROM pedidos
+                WHERE 1=1
+                ";
+
+        //Realiza el filtrado
+        if (!empty($request['search']['value'])) {
+            $sql .= " AND ( fk_idcliente LIKE '%" . $request['search']['value'] . "%' ";
+            $sql .= " OR fk_idsucursal LIKE '%" . $request['search']['value'] . "%' ";
+            $sql .= " fk_idestadopedido LIKE '%" . $request['search']['value'] . "%' )";
+            $sql .= " correo LIKE '%" . $request['search']['value'] . "%' )";
+        }
+        $sql .= " ORDER BY " . $columns[$request['order'][0]['column']] . "   " . $request['order'][0]['dir'];
+
+        $lstRetorno = DB::select($sql);
+
+        return $lstRetorno;
     }
 
     public function guardar(){

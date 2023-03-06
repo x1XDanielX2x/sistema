@@ -70,6 +70,39 @@ class Producto extends Model{
 
     }
 
+    public function obtenerFiltrado()
+    {
+        $request = $_REQUEST;
+        $columns = array(
+            0 => 'titulo',
+            1 => 'tipoproducto',
+            2 => 'cantidad',
+            3 => 'precio',
+        );
+        $sql = "SELECT DISTINCT
+                idproducto,
+                titulo,
+                fk_idtipoproducto,
+                cantidad,
+                precio
+            FROM productos
+                WHERE 1=1
+                ";
+
+        //Realiza el filtrado
+        if (!empty($request['search']['value'])) {
+            $sql .= " AND ( titulo LIKE '%" . $request['search']['value'] . "%' ";
+            $sql .= " OR tipoproducto LIKE '%" . $request['search']['value'] . "%' ";
+            $sql .= " cantidad LIKE '%" . $request['search']['value'] . "%' )";
+            $sql .= " precio LIKE '%" . $request['search']['value'] . "%' )";
+        }
+        $sql .= " ORDER BY " . $columns[$request['order'][0]['column']] . "   " . $request['order'][0]['dir'];
+
+        $lstRetorno = DB::select($sql);
+
+        return $lstRetorno;
+    }
+
     public function obtenerPorTipo($idTipoProducto){
 		$sql = "SELECT 
 				idproducto,

@@ -7,6 +7,43 @@ require app_path() . '/start/constants.php';
 
 class ControladorCliente extends Controller{
 
+    public function index(){
+        $titulo = "Listado de clientes";
+        return view("sistema.cliente-listado", compact("titulo"));
+    }
+
+    public function cargarGrilla(){
+        $request = $_REQUEST;
+
+        $cliente = new Cliente();
+        $aClientes = $cliente->obtenerFiltrado();
+
+        $data = array();
+        $cont = 0;
+
+        $inicio = $request['start'];
+        $registros_por_pagina = $request['length'];
+
+
+        for ($i = $inicio; $i < count($aClientes) && $cont < $registros_por_pagina; $i++) {
+            $row = array();
+            $row[] = '<a href="/admin/clientes/' . $aClientes[$i]->idcliente . '">' . $aClientes[$i]->nombre . '</a>';
+            $row[] = $aClientes[$i]->telefono;
+            $row[] = $aClientes[$i]->dni;
+            $row[] = $aClientes[$i]->correo;
+            $cont++;
+            $data[] = $row;
+        }
+
+        $json_data = array(
+            "draw" => intval($request['draw']),
+            "recordsTotal" => count($aClientes), //cantidad total de registros sin paginar
+            "recordsFiltered" => count($aClientes), //cantidad total de registros en la paginacion
+            "data" => $data,
+        );
+        return json_encode($json_data);
+    }
+
     public function nuevo(){
         $titulo = 'Nuevo cliente';
         return view("sistema.cliente-nuevo", compact("titulo"));//en vez de colocar el '/' para el directorio, se coloca '.'... No se coloca la extension, ya que laravel sabe que es '.blade.php' automaticamente

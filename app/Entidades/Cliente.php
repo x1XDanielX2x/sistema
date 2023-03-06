@@ -70,6 +70,39 @@ class Cliente extends Model{
 
     }
 
+    public function obtenerFiltrado()
+    {
+        $request = $_REQUEST;
+        $columns = array(
+            0 => 'nombre',
+            1 => 'documento',
+            2 => 'correo',
+            3 => 'telefono',
+        );
+        $sql = "SELECT DISTINCT
+                idcliente,
+                nombre,
+                telefono,
+                dni,
+                correo
+            FROM clientes
+                WHERE 1=1
+                ";
+
+        //Realiza el filtrado
+        if (!empty($request['search']['value'])) {
+            $sql .= " AND ( nombre LIKE '%" . $request['search']['value'] . "%' ";
+            $sql .= " OR telefono LIKE '%" . $request['search']['value'] . "%' ";
+            $sql .= " dni LIKE '%" . $request['search']['value'] . "%' )";
+            $sql .= " correo LIKE '%" . $request['search']['value'] . "%' )";
+        }
+        $sql .= " ORDER BY " . $columns[$request['order'][0]['column']] . "   " . $request['order'][0]['dir'];
+
+        $lstRetorno = DB::select($sql);
+
+        return $lstRetorno;
+    }
+
     public function guardar(){
         $sql = "UPDATE clientes SET
                 nombre = '$this->nombre',

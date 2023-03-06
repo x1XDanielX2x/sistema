@@ -16,6 +16,12 @@ class Rubro extends Model{
 
       protected $hidden = []; //campos ocultos
 
+      public function cargarFormulario($request){
+        $this->idrubro = $request->input('id') != "0" ? $request->input('id') : $this->idrubro;
+        $this->nombre = $request->input('txtNombre');
+
+      }
+
       //metodos basicos
 
     public function obtenerTodos(){
@@ -43,6 +49,31 @@ class Rubro extends Model{
         }
         return null;
 
+    }
+
+    public function obtenerFiltrado()
+    {
+        $request = $_REQUEST;
+        $columns = array(
+            0 => 'nombre',
+
+        );
+        $sql = "SELECT DISTINCT
+                idrubro,
+                nombre
+            FROM rublos
+                WHERE 1=1
+                ";
+
+        //Realiza el filtrado
+        if (!empty($request['search']['value'])) {
+            $sql .= " AND ( nombre LIKE '%" . $request['search']['value'] . "%' ";
+        }
+        $sql .= " ORDER BY " . $columns[$request['order'][0]['column']] . "   " . $request['order'][0]['dir'];
+
+        $lstRetorno = DB::select($sql);
+
+        return $lstRetorno;
     }
 
     public function guardar(){
