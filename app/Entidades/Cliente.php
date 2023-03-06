@@ -18,6 +18,16 @@ class Cliente extends Model{
 
       //metodos basicos
 
+      public function cargarFormulario($request){
+        $this->idcliente = $request->input('id') != "0" ? $request->input('id') : $this->idcliente;
+        $this->nombre = $request->input('txtNombre');
+        $this->telefono = $request->input('txtTelefono');
+        $this->direccion = $request->input('txtDireccion');
+        $this->dni = $request->input('txtDocumento');
+        $this->correo = $request->input('txtCorreo');
+        $this->clave = $request->input('txtClave');
+      }
+
     public function obtenerTodos(){
         $sql="SELECT 
                 idcliente,
