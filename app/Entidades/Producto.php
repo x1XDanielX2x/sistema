@@ -18,6 +18,16 @@ class Producto extends Model{
 
       //metodos basicos
 
+      public function cargarFormulario($request){
+        $this->idproducto = $request->input('id') != "0" ? $request->input('id') : $this->idcliente;
+        $this->fk_idTipoProducto = $request->input('txtTipoProducto');
+        $this->precio = $request->input('txtPrecio');
+        $this->cantidad = $request->input('txtCantidad');
+        $this->descripcion = $request->input('txtDescripcion');
+        $this->titulo = $request->input('txtTitulo');
+        $this->imagen = $request->input('imagen');
+      }
+
     public function obtenerTodos(){
         $sql="SELECT 
                 idproducto,
