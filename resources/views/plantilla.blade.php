@@ -131,11 +131,12 @@
           @yield('breadcrumb')
           </div>
         </div>
-          @yield('contenido') <!-- @yield = dar definicion a una seccion de (blade = laravel), en este caso, se dice que aqui este div sera la seccion contenido-->
+          @yield('contenido') 
         </div>
         </div>
+        
         <!-- /.container-fluid -->
-
+        
         <!-- Sticky Footer -->
         <footer class="sticky-footer">
           <div class="container my-auto">
