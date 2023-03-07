@@ -47,6 +47,24 @@ class ControladorPedido extends Controller{
             );
             return json_encode($json_data);
         }
+
+        public function editar($idPedido){
+
+            $titulo = "Edicion pedido";
+            $pedido=new Pedido();
+            $pedido->obtenerPorId($idPedido);
+
+            $cliente = new Cliente();
+            $cliente->obtenerPorId($idPedido);
+
+            $sucursal = new Sucursal();
+            $sucursal->obtenerPorId($idPedido);
+
+            $estadopedido = new Estado_Pedido();
+            $estadopedido->obtenerPorId($idPedido);
+            
+            return view('sistema.pedido-nuevo', compact('titulo', 'pedido', 'cliente'. 'sucursal'. 'estadopedido'));
+        }
     
           public function Nuevo(){
     

@@ -43,7 +43,7 @@ class Cliente extends Model{
         return $lstRetorno;
     }
 
-    public function obtenerPorId($idcliente){
+    public function obtenerPorId($idCliente){
         $sql="SELECT 
                 idcliente,
                 nombre,
@@ -52,7 +52,7 @@ class Cliente extends Model{
                 dni,
                 correo,
                 clave
-            FROM clientes WHERE idcliente = $idcliente";
+            FROM clientes WHERE idcliente = $idCliente";
 
         $lstRetorno = DB::select($sql);
 

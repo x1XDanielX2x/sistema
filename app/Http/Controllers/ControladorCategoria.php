@@ -40,6 +40,15 @@ class ControladorCategoria extends Controller{
             );
             return json_encode($json_data);
         }
+
+        public function editar($idTipoProducto){
+
+            $titulo = "Edicion categoria";
+            $categoria=new Tipo_Producto();
+            $categoria->obtenerPorId($idTipoProducto);
+            
+            return view('sistema.categoria-nuevo', compact('titulo', 'categoria'));
+        }
     
           public function Nuevo(){
     

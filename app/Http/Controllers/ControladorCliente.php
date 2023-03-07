@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Entidades\Cliente;
+use App\Entidades\Pedido;
 use Illuminate\Http\Request;
 require app_path() . '/start/constants.php';
 
@@ -27,7 +28,7 @@ class ControladorCliente extends Controller{
 
         for ($i = $inicio; $i < count($aClientes) && $cont < $registros_por_pagina; $i++) {
             $row = array();
-            $row[] = '<a href="/admin/clientes/' . $aClientes[$i]->idcliente . '">' . $aClientes[$i]->nombre . '</a>';
+            $row[] = '<a href="/admin/cliente/' . $aClientes[$i]->idcliente . '">' . $aClientes[$i]->nombre . '</a>';
             $row[] = $aClientes[$i]->telefono;
             $row[] = $aClientes[$i]->dni;
             $row[] = $aClientes[$i]->correo;
@@ -44,45 +45,79 @@ class ControladorCliente extends Controller{
         return json_encode($json_data);
     }
 
+    public function editar($idCliente){
+
+        $titulo = "Edicion cliente";
+        $cliente=new Cliente();
+        $cliente->obtenerPorId($idCliente);
+        
+        return view('sistema.cliente-nuevo', compact('titulo', 'cliente'));
+    }
+
     public function nuevo(){
         $titulo = 'Nuevo cliente';
-        return view("sistema.cliente-nuevo", compact("titulo"));//en vez de colocar el '/' para el directorio, se coloca '.'... No se coloca la extension, ya que laravel sabe que es '.blade.php' automaticamente
+        $cliente =new Cliente();
+        return view("sistema.cliente-nuevo", compact("titulo",'cliente'));//en vez de colocar el '/' para el directorio, se coloca '.'... No se coloca la extension, ya que laravel sabe que es '.blade.php' automaticamente
     } //Tampoco se coloca todo el directorio, ya que laravel sabe a que ruta debe dirigirse (resource/views)
 
     public function guardar(Request $request){
-        
-        
         try{
-
             $titulo = "Modificar cliente";
-            $cliente=new Cliente();
-            $cliente->cargarFormulario($request);
+            $clientenuevo=new Cliente();
+            $clientenuevo->cargarFormulario($request);
 
-            if($cliente->nombre == "" || $cliente->telefono == "" || $cliente->direccion == "" || $cliente->dni == "" || $cliente->correo == "" || $cliente->clave == ""){
+            if($clientenuevo->nombre == ""){
                 $msg["ESTADO"] = MSG_ERROR;
                 $msg["MSG"] = "Complete todos los datos";
             }else{
                 if($_POST["id"] > 0 ){
-                    $cliente->guardar();
+                    $clientenuevo->guardar();
                     $msg["ESTADO"] = MSG_SUCCESS;
                     $msg["MSG"] = OKINSERT;
                 }else{
-                    $cliente->insertar();
+                    $clientenuevo->insertar();
                     $msg["ESTADO"] = MSG_SUCCESS;
                     $msg["MSG"] = OKINSERT;
                 }
-                $_POST["id"] = $cliente->idcliente;
+                $_POST["id"] = $clientenuevo->idcliente;
                 return view('sistema.cliente-listado', compact('titulo','msg'));
             }
         } catch (Exception $e) {
             $msg["ESTADO"] = MSG_ERROR;
             $msg["MSG"] = ERRORINSERT;
         }
-        $id = $cliente->idcliente;
+        
+        $id = $clientenuevo->idcliente;
         $cliente = new Cliente();
         $cliente->obtenerPorId($id);
 
         return view('sistema.cliente-nuevo', compact('msg', 'cliente', 'titulo')) .'?id='. $cliente->idcliente;
+    }
+
+    public function eliminar(Request $request){
+        $idCliente = $request->input("id");
+        $cliente = new Cliente();
+        $pedido = new Pedido();
+
+
+        //Preguntar por is hay llaves foraneas
+
+        if($pedido->obtenerPedidosPorCliente($idCliente)){
+            $resultado["err"] = EXIT_FAILURE;
+            $resultado["mensaje"]="No se puede eliminar un cliente con productos asociados.";
+
+        }else{
+            //logica eliminar
+            $cliente->idcliente=$idCliente;
+            $cliente->eliminar();
+            $resultado["err"] = EXIT_SUCCESS;
+            $resultado["mensaje"] = "Registro eliminado exitosamente";
+        }
+        return json_encode($resultado);
+
+
+        
+        
     }
 }
 ?>

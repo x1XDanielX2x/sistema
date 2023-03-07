@@ -44,6 +44,15 @@ class ControladorProveedor extends Controller{
             );
             return json_encode($json_data);
         }
+
+        public function editar($idProveedor){
+
+            $titulo = "Edicion proveedor";
+            $proveedor=new Proveedor();
+            $proveedor->obtenerPorId($idProveedor);
+            
+            return view('sistema.proveedor-nuevo', compact('titulo', 'proveedor'));
+        }
     
           public function Nuevo(){
     

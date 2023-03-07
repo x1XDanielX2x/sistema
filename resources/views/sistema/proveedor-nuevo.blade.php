@@ -19,7 +19,7 @@
       <li class="btn-item"><a title="Guardar" href="#" class="fa fa-floppy-o" aria-hidden="true" onclick="javascript: $('#modalGuardar').modal('toggle');"><span>Guardar</span></a>
       </li>
       @if($globalId > 0)
-      <li class="btn-item"><a title="Guardar" href="#" class="fa fa-trash-o" aria-hidden="true" onclick="javascript: $('#mdlEliminar').modal('toggle');"><span>Eliminar</span></a></li>
+      <li class="btn-item"><a title="Eliminar" href="#" class="fa fa-trash-o" aria-hidden="true" onclick="javascript: $('#mdlEliminar').modal('toggle');"><span>Eliminar</span></a></li>
       @endif
       <li class="btn-item"><a title="Salir" href="#" class="fa fa-arrow-circle-o-left" aria-hidden="true" onclick="javascript: $('#modalSalir').modal('toggle');"><span>Salir</span></a></li>
 </ol>
@@ -54,11 +54,11 @@ if (isset($msg)) {
                   </div>
                   <div class="form-group col-6">
                         <label>Nit: *</label>
-                        <input type="number" id="txtNit" name="txtNit" class="form-control" value="" required>
+                        <input type="text" id="txtNit" name="txtNit" class="form-control" value="" required>
                   </div>
                   <div class="form-group col-6">
                         <label>Rubro: *</label>
-                        <input type="email" id="txtIdRubro" name="txtIdRubro" class="form-control" value="" required>
+                        <input type="text" id="txtIdRubro" name="txtIdRubro" class="form-control" value="" required>
                   </div>
             </div>
       </form>
