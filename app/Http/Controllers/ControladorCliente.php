@@ -96,9 +96,7 @@ class ControladorCliente extends Controller{
 
     public function eliminar(Request $request){
         $idCliente = $request->input("id");
-        $cliente = new Cliente();
         $pedido = new Pedido();
-
 
         //Preguntar por is hay llaves foraneas
 
@@ -108,16 +106,14 @@ class ControladorCliente extends Controller{
 
         }else{
             //logica eliminar
+            $cliente = new Cliente();
+
             $cliente->idcliente=$idCliente;
             $cliente->eliminar();
             $resultado["err"] = EXIT_SUCCESS;
             $resultado["mensaje"] = "Registro eliminado exitosamente";
         }
         return json_encode($resultado);
-
-
-        
-        
     }
 }
 ?>

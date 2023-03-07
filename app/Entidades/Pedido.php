@@ -132,5 +132,20 @@ class Pedido extends Model{
         ]);
         return $this->idpedido = DB::getPdo()->lastInsertId();
     }
+
+    public function obtenerPedidosPorCliente($idCliente){
+        $sql="SELECT 
+                idpedido,
+                fk_idcliente,
+                fk_idsucursal,
+                fk_idestadopedido,
+                fecha,
+                total
+            FROM pedidos WHERE fk_idcliente = $idCliente";
+
+        $lstRetorno = DB::select($sql);
+            
+        return (count($lstRetorno) > 0);
+    }
 }
 ?>
