@@ -31,10 +31,10 @@ class ControladorPedido extends Controller{
     
             for ($i = $inicio; $i < count($aPedidos) && $cont < $registros_por_pagina; $i++) {
                 $row = array();
-                $row[] = '<a href="/admin/pedido/' . $aPedidos[$i]->idpedido . '">' . $aPedidos[$i]->fk_idsucursal . '</a>';
-                $row[] = $aPedidos[$i]->fk_idestadopedido;
+                $row[] = '<a href="/admin/pedido/' . $aPedidos[$i]->idpedido . '">' . $aPedidos[$i]->Nombre_Sucursal . '</a>';
+                $row[] = $aPedidos[$i]->Estado_Pedido;
                 $row[] = $aPedidos[$i]->fecha;
-                $row[] = $aPedidos[$i]->total;
+                $row[] = number_format($aPedidos[$i]->total, '0', ',', '.');
                 $cont++;
                 $data[] = $row;
             }
@@ -51,24 +51,30 @@ class ControladorPedido extends Controller{
         public function editar($idPedido){
 
             $titulo = "Edicion pedido";
+
             $pedido=new Pedido();
             $pedido->obtenerPorId($idPedido);
 
             $cliente = new Cliente();
-            $cliente->obtenerPorId($idPedido);
+            //$cliente->obtenerPorId($idPedido);
+            $aClientes=$cliente->obtenerTodos();
 
             $sucursal = new Sucursal();
-            $sucursal->obtenerPorId($idPedido);
+            //$sucursal->obtenerPorId($idPedido);
+            $aSucursales=$sucursal->obtenerTodos();
 
             $estadopedido = new Estado_Pedido();
-            $estadopedido->obtenerPorId($idPedido);
+            //$estadopedido->obtenerPorId($idPedido);
+            $aEstadoPedidos=$estadopedido->obtenerTodos();
             
-            return view('sistema.pedido-nuevo', compact('titulo', 'pedido', 'cliente'. 'sucursal'. 'estadopedido'));
+            return view('sistema.pedido-nuevo', compact('titulo', 'pedido', 'aClientes', 'aSucursales', 'aEstadoPedidos'));
         }
     
           public function Nuevo(){
     
                 $titulo = "Nuevo Pedido"; 
+
+                $pedido = new Pedido();
 
                 $cliente = new Cliente();
                 $aClientes = $cliente->obtenerTodos();
@@ -79,7 +85,7 @@ class ControladorPedido extends Controller{
                 $estadopedido = new Estado_Pedido();
                 $aEstadoPedidos = $estadopedido->obtenerTodos();
 
-                return view('sistema.pedido-nuevo', compact("titulo", "aClientes","aSucursales", "aEstadoPedidos"));
+                return view('sistema.pedido-nuevo', compact("titulo", "aClientes","aSucursales", "aEstadoPedidos", 'pedido'));
           }
     
           public function guardar(Request $request){
@@ -117,6 +123,17 @@ class ControladorPedido extends Controller{
         
                 return view('sistema.pedido-nuevo', compact('msg', 'pedido', 'titulo')) .'?id='. $pedido->idpedido;
             }
-
+            public function eliminar(Request $request){
+                $idPedido = $_REQUEST["id"];
+                    //logica eliminar
+                    $pedido = new Pedido();
+        
+                    $pedido->idpedido=$idPedido;
+                    $pedido->eliminar();
+                    $resultado["err"] = EXIT_SUCCESS;
+                    $resultado["mensaje"] = "Registro eliminado exitosamente";
+                
+                return json_encode($resultado);
+            }
 }
 ?>

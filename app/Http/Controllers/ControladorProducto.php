@@ -29,7 +29,7 @@ class ControladorProducto extends Controller{
 
         for ($i = $inicio; $i < count($aProductos) && $cont < $registros_por_pagina; $i++) {
             $row = array();
-            $row[] = '<a href="/admin/productos/' . $aProductos[$i]->idproducto . '">' . $aProductos[$i]->titulo . '</a>';
+            $row[] = '<a href="/admin/producto/' . $aProductos[$i]->idproducto . '">' . $aProductos[$i]->titulo . '</a>';
             $row[] = $aProductos[$i]->fk_idtipoproducto;
             $row[] = $aProductos[$i]->cantidad;
             $row[] = $aProductos[$i]->precio;
@@ -51,18 +51,21 @@ class ControladorProducto extends Controller{
         $titulo = "Edicion producto";
         $producto=new Producto();
         $producto->obtenerPorId($idProducto);
+        $categoria=new Tipo_Producto();
+        $aCategorias=$categoria->obtenerTodos();
         
-        return view('sistema.producto-nuevo', compact('titulo', 'producto'));
+        return view('sistema.producto-nuevo', compact('titulo', 'producto','aCategorias'));
     }
 
       public function Nuevo(){
 
             $titulo = "Nuevo Producto";
 
+            $producto = new Producto();
             $categoria = new Tipo_Producto();
             $aCategorias = $categoria->obtenerTodos();
 
-            return view('sistema.producto-nuevo', compact("titulo", "aCategorias"));
+            return view('sistema.producto-nuevo', compact("titulo", "aCategorias", "producto"));
       }
 
       public function guardar(Request $request){
@@ -74,7 +77,8 @@ class ControladorProducto extends Controller{
                 $producto=new Producto();
                 $producto->cargarFormulario($request);
     
-                if($producto->precio == "" || $producto->cantidad == "" || $producto->descripcion == "" || $producto->titulo == "" || $producto->imagen == "" || $producto->fk_idTipoProducto == ""){
+                if($producto->precio == "" || $producto->cantidad == "" || $producto->descripcion == "" || $producto->titulo == "" || $producto->fk_idtipoproducto == ""){
+
                     $msg["ESTADO"] = MSG_ERROR;
                     $msg["MSG"] = "Complete todos los datos";
                 }else{

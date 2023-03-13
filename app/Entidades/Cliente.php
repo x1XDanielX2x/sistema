@@ -104,14 +104,15 @@ class Cliente extends Model{
     }
 
     public function guardar(){
+
         $sql = "UPDATE clientes SET
                 nombre = '$this->nombre',
                 telefono = '$this->telefono',
-                direccion = '$this-> direccion',
-                dni = '$this -> dni',
-                correo = '$this -> correo',
-                clave = '$this -> clave'
-            WHERE idcliente=?"; //se refiere a que lo busca en al parametro siguiente :
+                direccion = '$this->direccion',
+                dni = '$this->dni',
+                correo = '$this->correo',
+                clave = '$this->clave'
+            WHERE idcliente=?"; //se refiere a que lo busca en al parametro siguiente
         $affected = DB::update($sql, [$this->idcliente]);
     }
 
@@ -135,7 +136,7 @@ class Cliente extends Model{
             $this->direccion,
             $this->dni,
             $this->correo,
-            $this->clave,
+            $this->clave
         ]);
         return $this->idcliente = DB::getPdo()->lastInsertId();
     }

@@ -19,7 +19,7 @@
       <li class="btn-item"><a title="Guardar" href="#" class="fa fa-floppy-o" aria-hidden="true" onclick="javascript: $('#modalGuardar').modal('toggle');"><span>Guardar</span></a>
       </li>
       @if($globalId > 0)
-      <li class="btn-item"><a title="Guardar" href="#" class="fa fa-trash-o" aria-hidden="true" onclick="javascript: $('#mdlEliminar').modal('toggle');"><span>Eliminar</span></a></li>
+      <li class="btn-item"><a title="Eliminar" href="#" class="fa fa-trash-o" aria-hidden="true" onclick="javascript: $('#mdlEliminar').modal('toggle');"><span>Eliminar</span></a></li>
       @endif
       <li class="btn-item"><a title="Salir" href="#" class="fa fa-arrow-circle-o-left" aria-hidden="true" onclick="javascript: $('#modalSalir').modal('toggle');"><span>Salir</span></a></li>
 </ol>
@@ -34,11 +34,10 @@
 
 <?php
 if (isset($msg)) {
-      echo '<div id = "msg"></div>';
       echo '<script>msgShow("' . $msg["MSG"] . '", "' . $msg["ESTADO"] . '")</script>';
 }
 ?>
-
+<div id = "msg"></div>
 <div class="panel-body">
       <form id="form1" method="POST">
             <div class="row">
@@ -46,23 +45,23 @@ if (isset($msg)) {
                   <input type="hidden" id="id" name="id" class="form-control" value="{{$globalId}}" required>
                   <div class="form-group col-6">
                         <label>Nombre: *</label>
-                        <input type="text" id="txtNombre" name="txtNombre" class="form-control" value="" required>
+                        <input type="text" id="txtNombre" name="txtNombre" class="form-control" value="{{ $postulacion->nombre }}" required>
                   </div>
                   <div class="form-group col-6">
                         <label>Apellido: *</label>
-                        <input type="text" id="txtApellido" name="txtApellido" class="form-control" value="" required>
+                        <input type="text" id="txtApellido" name="txtApellido" class="form-control" value="{{ $postulacion->apellido }}" required>
                   </div>
                   <div class="form-group col-6">
                         <label>Telefono: *</label>
-                        <input type="text" id="txtTelefono" name="txtTelefono" class="form-control" value="" required>
+                        <input type="text" id="txtTelefono" name="txtTelefono" class="form-control" value="{{ $postulacion->telefono }}" required>
                   </div>
                   <div class="form-group col-6">
                         <label>Correo: *</label>
-                        <input type="email" id="txtCorreo" name="txtCorreo" class="form-control" value="" required>
+                        <input type="email" id="txtCorreo" name="txtCorreo" class="form-control" value="{{ $postulacion->correo }}" required>
                   </div>
                   <div class="form-group col-6">
                         <label>Hoja de vida: *</label>
-                        <input type="text" id="txtCv" name="txtCv" class="form-control" value="" required>
+                        <input type="text" id="txtCv" name="txtCv" class="form-control" value="{{ $postulacion->cv }}" required>
                   </div>
             </div>
       </form>
@@ -79,6 +78,27 @@ if (isset($msg)) {
             msgShow("Corrija los errores e intente nuevamente.", "danger");
             return false;
         }
+    }
+    function eliminar() {
+        $.ajax({
+            type: "GET",
+            url: "{{ asset('admin/postulacion/eliminar') }}",
+            data: { id:globalId },
+            async: true,
+            dataType: "json",
+            success: function (data) {
+                if (data.err = 0) {
+                    msgShow(data.mensaje, "success");
+                    $("#btnEnviar").hide();
+                    $("#btnEliminar").hide();
+                    $('#mdlEliminar').modal('toggle');
+                } else {
+                    msgShow(data.mensaje, "danger");
+                    $('#mdlEliminar').modal('toggle');
+
+                }
+            }
+        });
     }
     </script>
 </div>

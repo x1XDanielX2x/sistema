@@ -34,11 +34,10 @@
 
 <?php
 if (isset($msg)) {
-      echo '<div id = "msg"></div>';
       echo '<script>msgShow("' . $msg["MSG"] . '", "' . $msg["ESTADO"] . '")</script>';
 }
 ?>
-
+<div id = "msg"></div>
 <div class="panel-body">
       <form id="form1" method="POST">
             <div class="row">
@@ -46,19 +45,29 @@ if (isset($msg)) {
                   <input type="hidden" id="id" name="id" class="form-control" value="{{$globalId}}" required>
                   <div class="form-group col-6">
                         <label>Nombre: *</label>
-                        <input type="text" id="txtNombre" name="txtNombre" class="form-control" value="" required>
+                        <input type="text" id="txtNombre" name="txtNombre" class="form-control" value="{{ $proveedor->nombre }}" required>
                   </div>
                   <div class="form-group col-6">
                         <label>Direccion: *</label>
-                        <input type="text" id="txtDireccion" name="txtDireccion" class="form-control" value="" required>
+                        <input type="text" id="txtDireccion" name="txtDireccion" class="form-control" value="{{ $proveedor->direccion }}" required>
                   </div>
                   <div class="form-group col-6">
                         <label>Nit: *</label>
-                        <input type="text" id="txtNit" name="txtNit" class="form-control" value="" required>
+                        <input type="text" id="txtNit" name="txtNit" class="form-control" value="{{ $proveedor->nit }}" required>
                   </div>
                   <div class="form-group col-6">
                         <label>Rubro: *</label>
-                        <input type="text" id="txtIdRubro" name="txtIdRubro" class="form-control" value="" required>
+                        <select id="txtIdRubro" name="txtIdRubro" class="form-control" value="" required>
+                              <option value="" selected disabled>Seleccionar</option>
+                              @foreach($aRubros as $rubro)   
+
+                            @if ($rubro->idrublo == $proveedor->fk_idrubro): ?>
+                                <option selected value="{{ $rubro->idrublo }}">{{ $rubro->nombre }}</option>
+                            @else
+                                <option value="{{ $rubro->idrublo }}">{{ $rubro->nombre }}</option>
+                            @endif
+                        @endforeach
+                        </select>
                   </div>
             </div>
       </form>
@@ -75,6 +84,27 @@ if (isset($msg)) {
             msgShow("Corrija los errores e intente nuevamente.", "danger");
             return false;
         }
+    }
+    function eliminar() {
+        $.ajax({
+            type: "GET",
+            url: "{{ asset('admin/proveedor/eliminar') }}",
+            data: { id:globalId },
+            async: true,
+            dataType: "json",
+            success: function (data) {
+                if (data.err = 0) {
+                    msgShow(data.mensaje, "success");
+                    $("#btnEnviar").hide();
+                    $("#btnEliminar").hide();
+                    $('#mdlEliminar').modal('toggle');
+                } else {
+                    msgShow(data.mensaje, "danger");
+                    $('#mdlEliminar').modal('toggle');
+
+                }
+            }
+        });
     }
     </script>
 </div>

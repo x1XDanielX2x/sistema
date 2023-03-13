@@ -17,12 +17,12 @@ class Postulacion extends Model{
       protected $hidden = []; //campos ocultos
 
       public function cargarFormulario($request){
-        $this->idpostulacion = $request->input('id') != "0" ? $request->input('id') : $this->idpostulacion;
-        $this->nombre = $request->input('txtNombre');
-        $this->apellido = $request->input('txtApellido');
-        $this->telefono = $request->input('txtTelefono');
-        $this->correo = $request->input('txtCorreo');
-        $this->cv = $request->input('txtCv');
+        $this->idpostulacion = $_REQUEST['id'] != "0" ? $_REQUEST['id'] : $this->idpostulacion;
+        $this->nombre = $_REQUEST['txtNombre'];
+        $this->apellido = $_REQUEST['txtApellido'];
+        $this->telefono = $_REQUEST['txtTelefono'];
+        $this->correo = $_REQUEST['txtCorreo'];
+        $this->cv = $_REQUEST['txtCv'];
       }
 
       //metodos basicos
@@ -102,10 +102,10 @@ class Postulacion extends Model{
     public function guardar(){
         $sql = "UPDATE postulaciones SET
                 nombre = '$this->nombre',
-                apellido = '$this-> apellido',
+                apellido = '$this->apellido',
                 telefono = '$this->telefono',
-                correo = '$this -> correo',
-                cv = '$this -> cv'
+                correo = '$this->correo',
+                cv = '$this->cv'
             WHERE idpostulacion=?"; //se refiere a que lo busca en al parametro siguiente :
         $affected = DB::update($sql, [$this->idpostulacion]);
     }

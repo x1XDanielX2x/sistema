@@ -28,7 +28,7 @@ class ControladorRubro extends Controller{
     
             for ($i = $inicio; $i < count($aRubros) && $cont < $registros_por_pagina; $i++) {
                 $row = array();
-                $row[] = '<a href="/admin/rubros/' . $aRubros[$i]->idrublo . '">' . $aRubros[$i]->nombre . '</a>';
+                $row[] = '<a href="/admin/rubro/' . $aRubros[$i]->idrublo . '">' . $aRubros[$i]->nombre . '</a>';
                 $cont++;
                 $data[] = $row;
             }
@@ -42,11 +42,11 @@ class ControladorRubro extends Controller{
             return json_encode($json_data);
         }
 
-        public function editar($idRubro){
+        public function editar($idRublo){
 
             $titulo = "Edicion cliente";
             $rubro=new Rubro();
-            $rubro->obtenerPorId($idRubro);
+            $rubro->obtenerPorId($idRublo);
             
             return view('sistema.rubro-nuevo', compact('titulo', 'rubro'));
         }
@@ -54,7 +54,8 @@ class ControladorRubro extends Controller{
           public function Nuevo(){
     
                 $titulo = "Nuevo rubro"; 
-                return view('sistema.rubro-nuevo', compact("titulo"));
+                $rubro = new Rubro();
+                return view('sistema.rubro-nuevo', compact("titulo",'rubro'));
           }
     
           public function guardar(Request $request){
@@ -74,12 +75,12 @@ class ControladorRubro extends Controller{
                             $rubro->guardar();
                             $msg["ESTADO"] = MSG_SUCCESS;
                             $msg["MSG"] = OKINSERT;
-                        }else{
+                        }else{exit;
                             $rubro->insertar();
                             $msg["ESTADO"] = MSG_SUCCESS;
                             $msg["MSG"] = OKINSERT;
                         }
-                        $_POST["id"] = $rubro->idrubro;
+                        $_POST["id"] = $rubro->idrublo;
                         return view('sistema.rubro-listado', compact('titulo','msg'));
                     }
                 } catch (Exception $e) {
@@ -91,6 +92,19 @@ class ControladorRubro extends Controller{
                 $rubro->obtenerPorId($id);
         
                 return view('sistema.rubro-nuevo', compact('msg', 'rubro', 'titulo')) .'?id='. $rubro->idrublo;
+            }
+            public function eliminar(Request $request){
+                $idRubro = $_REQUEST["id"];
+                    
+                    //logica eliminar
+                    $rubro = new Rubro();
+        
+                    $rubro->idrublo=$idRubro;
+                    $rubro->eliminar();
+                    $resultado["err"] = EXIT_SUCCESS;
+                    $resultado["mensaje"] = "Registro eliminado exitosamente";
+                
+                return json_encode($resultado);
             }
 
 }

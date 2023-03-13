@@ -65,7 +65,7 @@ class ControladorCliente extends Controller{
             $titulo = "Modificar cliente";
             $clientenuevo=new Cliente();
             $clientenuevo->cargarFormulario($request);
-
+            
             if($clientenuevo->nombre == ""){
                 $msg["ESTADO"] = MSG_ERROR;
                 $msg["MSG"] = "Complete todos los datos";
@@ -102,7 +102,7 @@ class ControladorCliente extends Controller{
 
         if($pedido->obtenerPedidosPorCliente($idCliente)){
             $resultado["err"] = EXIT_FAILURE;
-            $resultado["mensaje"]="No se puede eliminar un cliente con productos asociados.";
+            $resultado["mensaje"]="No se puede eliminar un cliente con pedidos asociados.";
 
         }else{
             //logica eliminar

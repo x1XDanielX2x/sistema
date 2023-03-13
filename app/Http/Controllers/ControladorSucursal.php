@@ -1,6 +1,7 @@
 <?php 
 
 namespace App\Http\Controllers;
+use App\Entidades\Pedido;
 use App\Entidades\Sucursal;
 use Illuminate\http\Request;
 require app_path() . '/start/constants.php';
@@ -28,7 +29,7 @@ class ControladorSucursal extends Controller{
     
             for ($i = $inicio; $i < count($aSucursales) && $cont < $registros_por_pagina; $i++) {
                 $row = array();
-                $row[] = '<a href="/admin/sucursales/' . $aSucursales[$i]->idsucursal . '">' . $aSucursales[$i]->nombre . '</a>';
+                $row[] = '<a href="/admin/sucursal/' . $aSucursales[$i]->idsucursal . '">' . $aSucursales[$i]->nombre . '</a>';
                 $row[] = $aSucursales[$i]->direccion;
                 $row[] = $aSucursales[$i]->telefono;
                 $row[] = $aSucursales[$i]->horario;
@@ -57,13 +58,11 @@ class ControladorSucursal extends Controller{
         public function Nuevo(){
 
             $titulo = "Nueva Sucursal";
-
-
-            return view('sistema.sucursal-nuevo', compact("titulo", "aCategorias"));
+            $sucursal = new Sucursal();
+            return view('sistema.sucursal-nuevo', compact("titulo", "sucursal"));
       }
 
       public function guardar(Request $request){
-        
         
             try{
     
@@ -71,7 +70,7 @@ class ControladorSucursal extends Controller{
                 $sucursal=new Sucursal();
                 $sucursal->cargarFormulario($request);
     
-                if($sucursal->nombre == "" || $sucursal->direccion == "" || $sucursal->telefono == "" || $sucursal->mapa == "" || $sucursal->horario == ""){
+                if($sucursal->nombre == ""){
                     $msg["ESTADO"] = MSG_ERROR;
                     $msg["MSG"] = "Complete todos los datos";
                 }else{
@@ -96,6 +95,27 @@ class ControladorSucursal extends Controller{
             $sucursal->obtenerPorId($id);
     
             return view('sistema.sucursal-nuevo', compact('msg', 'sucursal', 'titulo')) .'?id='. $sucursal->idsucursal;
+        }
+
+        public function eliminar(Request $request){
+            $idSucursal = $_REQUEST["id"];
+            $pedido = new Pedido();
+
+            if($pedido->obtenerPedidosPorSucursal($idSucursal)){
+                $resultado["err"] = EXIT_FAILURE;
+                $resultado["mensaje"]="No se puede eliminar una sucursal con pedidos asociados.";
+
+            }else{
+                //logica eliminar
+                $sucursal = new Sucursal();
+    
+                $sucursal->idsucursal=$idSucursal;
+                $sucursal->eliminar();
+                $resultado["err"] = EXIT_SUCCESS;
+                $resultado["mensaje"] = "Registro eliminado exitosamente";
+            
+            }
+            return json_encode($resultado); 
         }
 
 

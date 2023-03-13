@@ -28,7 +28,7 @@ class ControladorPostulacion extends Controller{
     
             for ($i = $inicio; $i < count($aPostulaciones) && $cont < $registros_por_pagina; $i++) {
                 $row = array();
-                $row[] = '<a href="/admin/postulaciones/' . $aPostulaciones[$i]->idpostulacion . '">' . $aPostulaciones[$i]->nombre . '</a>';
+                $row[] = '<a href="/admin/postulacion/' . $aPostulaciones[$i]->idpostulacion . '">' . $aPostulaciones[$i]->nombre . '</a>';
                 $row[] = $aPostulaciones[$i]->apellido;
                 $row[] = $aPostulaciones[$i]->telefono;
                 $row[] = $aPostulaciones[$i]->correo;
@@ -57,11 +57,11 @@ class ControladorPostulacion extends Controller{
           public function Nuevo(){
     
                 $titulo = "Nueva Postulacion"; 
-                return view('sistema.postulacion-nuevo', compact("titulo", "aCategorias"));
+                $postulacion=new Postulacion();
+                return view('sistema.postulacion-nuevo', compact("titulo", 'postulacion'));
           }
     
           public function guardar(Request $request){
-            
             
                 try{
         
@@ -95,6 +95,18 @@ class ControladorPostulacion extends Controller{
         
                 return view('sistema.postulacion-nuevo', compact('msg', 'postulacion', 'titulo')) .'?id='. $postulacion->idpostulacion;
             }
-
+            public function eliminar(Request $request){
+                $idPostulacion = $_REQUEST['id'];        
+            
+                    //logica eliminar
+                    $postulacion = new Postulacion();
+        
+                    $postulacion->idpostulacion=$idPostulacion;
+                    $postulacion->eliminar();
+                    $resultado["err"] = EXIT_SUCCESS;
+                    $resultado["mensaje"] = "Registro eliminado exitosamente";
+                
+                return json_encode($resultado);
+            }
 }
 ?>

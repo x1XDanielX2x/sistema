@@ -11,7 +11,7 @@ class Producto extends Model{
       public $timestamps = false; //colocar fecha y hora ne la bbdd de la insersion, marcas de tiempo
 
       protected $fillable = [ //Campos(columnas) de la table 'clientes' en la BBDD
-            'idproducto','precio','fk_idTipoProducto','titulo','descripcion','cantidad','imagen'
+            'idproducto','precio','fk_idtipoproducto','titulo','descripcion','cantidad','imagen'
       ];
 
       protected $hidden = []; //campos ocultos
@@ -19,20 +19,20 @@ class Producto extends Model{
       //metodos basicos
 
       public function cargarFormulario($request){
-        $this->idproducto = $request->input('id') != "0" ? $request->input('id') : $this->idcliente;
-        $this->fk_idTipoProducto = $request->input('txtTipoProducto');
-        $this->precio = $request->input('txtPrecio');
-        $this->cantidad = $request->input('txtCantidad');
-        $this->descripcion = $request->input('txtDescripcion');
-        $this->titulo = $request->input('txtTitulo');
-        $this->imagen = $request->input('imagen');
+        $this->idproducto = $_REQUEST['id'] != "0" ? $_REQUEST['id'] : $this->idproducto;
+        $this->fk_idtipoproducto = $_REQUEST['txtTipoProducto'];
+        $this->precio = $_REQUEST['txtPrecio'];
+        $this->cantidad = $_REQUEST['txtCantidad'];
+        $this->descripcion = $_REQUEST['txtDescripcion'];
+        $this->titulo = $_REQUEST['txtTitulo'];
+        $this->imagen = $_REQUEST['txtImagen'];
       }
 
     public function obtenerTodos(){
         $sql="SELECT 
                 idproducto,
                 precio,
-                fk_idTipoProducto,
+                fk_idtipoproducto,
                 titulo,
                 descripcion,
                 cantidad,
@@ -47,7 +47,7 @@ class Producto extends Model{
         $sql="SELECT 
                 idproducto,
                 precio,
-                fk_idTipoProducto,
+                fk_idtipoproducto,
                 titulo,
                 descripcion,
                 cantidad,
@@ -59,7 +59,7 @@ class Producto extends Model{
         if(count($lstRetorno) > 0){
             $this->idproducto = $lstRetorno[0]->idproducto;
             $this->precio = $lstRetorno[0]->precio;
-            $this->fk_idTipoProducto = $lstRetorno[0]->fk_idTipoProducto;
+            $this->fk_idtipoproducto = $lstRetorno[0]->fk_idtipoproducto;
             $this->titulo = $lstRetorno[0]->titulo;
             $this->descripcion = $lstRetorno[0]->descripcion;
             $this->cantidad = $lstRetorno[0]->cantidad;
@@ -77,7 +77,7 @@ class Producto extends Model{
             0 => 'titulo',
             1 => 'tipoproducto',
             2 => 'cantidad',
-            3 => 'precio',
+            3 => 'precio'
         );
         $sql = "SELECT DISTINCT
                 idproducto,
@@ -92,7 +92,7 @@ class Producto extends Model{
         //Realiza el filtrado
         if (!empty($request['search']['value'])) {
             $sql .= " AND ( titulo LIKE '%" . $request['search']['value'] . "%' ";
-            $sql .= " OR tipoproducto LIKE '%" . $request['search']['value'] . "%' ";
+            $sql .= " OR fk_idtipoproducto LIKE '%" . $request['search']['value'] . "%' ";
             $sql .= " cantidad LIKE '%" . $request['search']['value'] . "%' )";
             $sql .= " precio LIKE '%" . $request['search']['value'] . "%' )";
         }
@@ -119,11 +119,11 @@ class Producto extends Model{
     public function guardar(){
         $sql = "UPDATE productos SET
                 precio = $this->precio,
-                fk_idTipoProducto = $this->fk_idTipoProducto,
-                titulo = '$this-> titulo',
-                descripcion = '$this -> descripcion',
-                cantidad = $this -> cantidad,
-                imagen = '$this -> imagen'
+                fk_idtipoproducto = $this->fk_idtipoproducto,
+                titulo = '$this->titulo',
+                descripcion = '$this->descripcion',
+                cantidad = $this->cantidad,
+                imagen = '$this->imagen'
             WHERE idproducto=?"; //se refiere a que lo busca en al parametro siguiente :
         $affected = DB::update($sql, [$this->idproducto]);
     }
@@ -136,7 +136,7 @@ class Producto extends Model{
     public function insertar(){
         $sql="INSERT INTO productos (
                 precio,
-                fk_idTipoProducto,
+                fk_idtipoproducto,
                 titulo,
                 descripcion,
                 cantidad,
@@ -144,11 +144,11 @@ class Producto extends Model{
                 ?,?,?,?,?,?);";
         $result = DB::insert($sql, [
             $this->precio,
-            $this->fk_idTipoProducto,
+            $this->fk_idtipoproducto,
             $this->titulo,
             $this->descripcion,
             $this->cantidad,
-            $this->imagen,
+            $this->imagen
         ]);
         return $this->idproducto = DB::getPdo()->lastInsertId();
     }

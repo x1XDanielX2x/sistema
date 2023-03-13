@@ -17,12 +17,12 @@ class Pedido extends Model{
       protected $hidden = []; //campos ocultos
 
       public function cargarFormulario($request){
-        $this->idpedido = $request->input('id') != "0" ? $request->input('id') : $this->idpedido;
-        $this->fk_idcliente = $request->input('txtCliente');
-        $this->fk_idsucursal = $request->input('txtSucursal');
-        $this->fk_idestadopedido = $request->input('txtEstadoPedido');
-        $this->fecha = $request->input('txtFecha');
-        $this->total = $request->input('txtTotal');
+        $this->idpedido = $_REQUEST["id"] != "0" ? $_REQUEST["id"] : $this->idpedido;
+        $this->fk_idcliente = $_REQUEST["txtCliente"];
+        $this->fk_idsucursal = $_REQUEST["txtSucursal"];
+        $this->fk_idestadopedido = $_REQUEST["txtEstadoPedido"];
+        $this->fecha = $_REQUEST["txtFecha"];
+        $this->total = $_REQUEST["txtTotal"];
       }
 
       //metodos basicos
@@ -34,7 +34,7 @@ class Pedido extends Model{
                 fk_idsucursal,
                 fk_idestadopedido,
                 fecha,
-                total
+                total                   //1:19
             FROM pedidos ORDER BY fecha DESC";
 
         $lstRetorno = DB::select($sql);
@@ -76,12 +76,19 @@ class Pedido extends Model{
             3 => 'total',
         );
         $sql = "SELECT DISTINCT
-                idpedido,
-                fk_idsucursal,
-                fk_idestadopedido,
-                fecha,
-                total
-            FROM pedidos
+                    P.idpedido,
+                    P.fk_idcliente,
+                    P.fk_idsucursal,
+                    P.fk_idestadopedido,
+                    P.fecha,
+                    P.total,
+                    C.nombre AS Nombre_Cliente,
+                    S.nombre AS Nombre_Sucursal,
+                    E.nombre AS Estado_Pedido
+                FROM pedidos P
+                INNER JOIN clientes C ON P.fk_idcliente=C.idcliente
+                INNER JOIN sucursales S ON P.fk_idsucursal=S.idsucursal
+                INNER JOIN estado_pedidos E ON P.fk_idestadopedido=E.isestadopedido
                 WHERE 1=1
                 ";
 
@@ -102,10 +109,10 @@ class Pedido extends Model{
     public function guardar(){
         $sql = "UPDATE pedidos SET
                 fk_idcliente = $this->fk_idcliente,
-                fk_idsucursal = $this-> fk_idsucursal,
+                fk_idsucursal = $this->fk_idsucursal,
                 fk_idestadopedido = $this->fk_idestadopedido,
-                fecha = '$this -> fecha',
-                total = $this -> total
+                fecha = '$this->fecha',
+                total = $this->total
             WHERE idpedido=?"; //se refiere a que lo busca en al parametro siguiente :
         $affected = DB::update($sql, [$this->idpedido]);
     }
@@ -147,5 +154,20 @@ class Pedido extends Model{
             
         return (count($lstRetorno) > 0);
     }
+
+    public function obtenerPedidosPorSucursal($idSucursal){
+        $sql="SELECT 
+                idpedido,
+                fk_idcliente,
+                fk_idsucursal,
+                fk_idestadopedido,
+                fecha,
+                total
+            FROM pedidos WHERE fk_idsucursal = $idSucursal";
+
+        $lstRetorno = DB::select($sql);
+            
+        return (count($lstRetorno) > 0);
+    }
 }
-?>
+

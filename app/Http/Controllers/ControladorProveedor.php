@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Entidades\Proveedor;
 use Illuminate\http\Request;
+use App\Entidades\Rubro;
 require app_path() . '/start/constants.php';
 
 
@@ -28,7 +29,7 @@ class ControladorProveedor extends Controller{
     
             for ($i = $inicio; $i < count($aProveedores) && $cont < $registros_por_pagina; $i++) {
                 $row = array();
-                $row[] = '<a href="/admin/proveedores/' . $aProveedores[$i]->idproveedor . '">' . $aProveedores[$i]->nombre . '</a>';
+                $row[] = '<a href="/admin/proveedor/' . $aProveedores[$i]->idproveedor . '">' . $aProveedores[$i]->nombre . '</a>';
                 $row[] = $aProveedores[$i]->direccion;
                 $row[] = $aProveedores[$i]->nit;
                 $row[] = $aProveedores[$i]->fk_idrubro;
@@ -48,21 +49,28 @@ class ControladorProveedor extends Controller{
         public function editar($idProveedor){
 
             $titulo = "Edicion proveedor";
+            
             $proveedor=new Proveedor();
             $proveedor->obtenerPorId($idProveedor);
+
+            $rubro=new Rubro();
+            $aRubros=$rubro->obtenerTodos();
             
-            return view('sistema.proveedor-nuevo', compact('titulo', 'proveedor'));
+            return view('sistema.proveedor-nuevo', compact('titulo', 'proveedor','aRubros'));
         }
     
           public function Nuevo(){
     
-                $titulo = "Nuevo Proveedor"; 
-                return view('sistema.proveedor-nuevo', compact("titulo"));
+                $titulo = "Nuevo Proveedor";
+
+                $proveedor = new Proveedor();
+                $rubro=new Rubro();
+                $aRubros=$rubro->obtenerTodos();
+                return view('sistema.proveedor-nuevo', compact("titulo","proveedor", 'aRubros'));
           }
     
           public function guardar(Request $request){
-            
-            
+
                 try{
         
                     $titulo = "Modificar Proveedor";
@@ -95,6 +103,18 @@ class ControladorProveedor extends Controller{
         
                 return view('sistema.proveedor-nuevo', compact('msg', 'proveedor', 'titulo')) .'?id='. $proveedor->idproveedor;
             }
-
+            public function eliminar(Request $request){
+                $idproveedor = $_REQUEST["id"];
+                $proveedor = new Proveedor();
+        
+                
+        
+                    $proveedor->idproveedor=$idproveedor;
+                    $proveedor->eliminar();
+                    $resultado["err"] = EXIT_SUCCESS;
+                    $resultado["mensaje"] = "Registro eliminado exitosamente";
+                
+                return json_encode($resultado);
+            }
 }
 ?>

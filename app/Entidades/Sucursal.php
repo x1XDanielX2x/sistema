@@ -17,12 +17,12 @@ class Sucursal extends Model{
       protected $hidden = []; //campos ocultos
 
       public function cargarFormulario($request){
-        $this->idsucursal = $request->input('id') != "0" ? $request->input('id') : $this->idsucursal;
-        $this->nombre = $request->input('txtNombre');
-        $this->direccion = $request->input('txtDireccion');
-        $this->telefono = $request->input('txtTelefono');
-        $this->mapa = $request->input('txtMapa');
-        $this->horario = $request->input('txtHorario');
+        $this->idsucursal = $_REQUEST['id'] != "0" ? $_REQUEST['id'] : $this->idsucursal;
+        $this->nombre = $_REQUEST['txtNombre'];
+        $this->direccion = $_REQUEST['txtDireccion'];
+        $this->telefono = $_REQUEST['txtTelefono'];
+        $this->mapa = $_REQUEST['txtMapa'];
+        $this->horario = $_REQUEST['txtHorario'];
       }
 
       //metodos basicos
@@ -102,10 +102,10 @@ class Sucursal extends Model{
     public function guardar(){
         $sql = "UPDATE sucursales SET
                 nombre = '$this->nombre',
-                direccion = '$this-> direccion',
+                direccion = '$this->direccion',
                 telefono = '$this->telefono',
-                mapa = '$this -> mapa',
-                horario = '$this -> horario'
+                mapa = '$this->mapa',
+                horario = '$this->horario'
             WHERE idsucursal=?"; //se refiere a que lo busca en al parametro siguiente :
         $affected = DB::update($sql, [$this->idsucursal]);
     }
@@ -128,7 +128,7 @@ class Sucursal extends Model{
             $this->direccion,
             $this->telefono,
             $this->mapa,
-            $this->horario,
+            $this->horario
         ]);
         return $this->idsucursal = DB::getPdo()->lastInsertId();
     }

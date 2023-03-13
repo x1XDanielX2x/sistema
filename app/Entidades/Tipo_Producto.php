@@ -17,8 +17,8 @@ class Tipo_Producto extends Model{
       protected $hidden = []; //campos ocultos
 
       public function cargarFormulario($request){
-        $this->idtipoproducto = $request->input('id') != "0" ? $request->input('id') : $this->idcliente;
-        $this->nombre = $request->input('txtNombre');
+        $this->idtipoproducto = $_REQUEST['id'] != "0" ? $_REQUEST['id'] : $this->idtipoproducto;
+        $this->nombre = $_REQUEST['txtNombre'];
       }
 
       //metodos basicos
@@ -86,6 +86,7 @@ class Tipo_Producto extends Model{
                 idtipoproducto=?";
         $affected = DB::delete($sql, [$this->idtipoproducto]);
     }
+
     public function insertar(){
         $sql="INSERT INTO tipo_productos (
                 nombre) VALUES(

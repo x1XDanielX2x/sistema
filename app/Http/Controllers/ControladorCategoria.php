@@ -27,7 +27,7 @@ class ControladorCategoria extends Controller{
     
             for ($i = $inicio; $i < count($aCategorias) && $cont < $registros_por_pagina; $i++) {
                 $row = array();
-                $row[] = '<a href="/admin/categorias/' . $aCategorias[$i]->idtipoproducto . '">' . $aCategorias[$i]->nombre . '</a>';
+                $row[] = '<a href="/admin/categoria/' . $aCategorias[$i]->idtipoproducto . '">' . $aCategorias[$i]->nombre . '</a>';
                 $cont++;
                 $data[] = $row;
             }
@@ -50,47 +50,59 @@ class ControladorCategoria extends Controller{
             return view('sistema.categoria-nuevo', compact('titulo', 'categoria'));
         }
     
-          public function Nuevo(){
+          public function nuevo(){
     
-                $titulo = "Nueva Categoria"; 
-                return view('sistema.categoria-nuevo', compact("titulo"));
+                $titulo = "Nueva Categoria";
+                $categoria=new Tipo_Producto();
+                return view('sistema.categoria-nuevo', compact("titulo","categoria"));
           }
     
           public function guardar(Request $request){
-            
-            
-                try{
-        
-                    $titulo = "Modificar Categoria";
-                    $categoria=new Tipo_Producto();
-                    $categoria->cargarFormulario($request);
-        
-                    if($categoria->nombre == ""){
-                        $msg["ESTADO"] = MSG_ERROR;
-                        $msg["MSG"] = "Complete todos los datos";
-                    }else{
-                        if($_POST["id"] > 0 ){
-                            $categoria->guardar();
-                            $msg["ESTADO"] = MSG_SUCCESS;
-                            $msg["MSG"] = OKINSERT;
-                        }else{
-                            $categoria->insertar();
-                            $msg["ESTADO"] = MSG_SUCCESS;
-                            $msg["MSG"] = OKINSERT;
-                        }
-                        $_POST["id"] = $categoria->idcategoria;
-                        return view('sistema.postulacion-listado', compact('titulo','msg'));
-                    }
-                } catch (Exception $e) {
+            try{
+                $titulo = "Modificar Categoria";
+                $nuevaCategoria=new Tipo_Producto();
+                $nuevaCategoria->cargarFormulario($request);
+                if($nuevaCategoria->nombre == ""){
                     $msg["ESTADO"] = MSG_ERROR;
-                    $msg["MSG"] = ERRORINSERT;
+                    $msg["MSG"] = "Complete todos los datos";
+                }else{
+                    if($_POST["id"] > 0 ){
+                        $nuevaCategoria->guardar();
+                        $msg["ESTADO"] = MSG_SUCCESS;
+                        $msg["MSG"] = OKINSERT;
+                    }else{
+                        $nuevaCategoria->insertar();
+                        $msg["ESTADO"] = MSG_SUCCESS;
+                        $msg["MSG"] = OKINSERT;
+                    }
+                    $_POST["id"] = $nuevaCategoria->idtipoproducto;
+                    return view('sistema.categoria-listado', compact('titulo','msg'));
                 }
-                $id = $categoria->idcategoria;
-                $categoria = new Tipo_Producto();
-                $categoria->obtenerPorId($id);
-        
-                return view('sistema.categoria-nuevo', compact('msg', 'categoria', 'titulo')) .'?id='. $categoria->idcategoria;
+            } catch (Exception $e) {
+                $msg["ESTADO"] = MSG_ERROR;
+                $msg["MSG"] = ERRORINSERT;
             }
+            
+            $id = $nuevaCategoria->idtipoproducto;
+            $categoria = new Tipo_Producto();
+            $categoria->obtenerPorId($id);
+    
+            return view('sistema.categoria-nuevo', compact('msg', 'categoria', 'titulo')) .'?id='. $categoria->idtipoproducto;
+        }
+
+        public function eliminar(Request $request){
+            $idCategoria = $_REQUEST["id"];
+
+                //logica eliminar
+                $categoria = new Tipo_Producto();
+    
+                $categoria->idtipoproducto=$idCategoria;
+                $categoria->eliminar();
+                $resultado["err"] = EXIT_SUCCESS;
+                $resultado["mensaje"] = "Registro eliminado exitosamente";
+
+            
+            return json_encode($resultado);
+        }
 
 }
-?>

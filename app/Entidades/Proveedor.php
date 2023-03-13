@@ -17,11 +17,11 @@ class Proveedor extends Model{
       protected $hidden = []; //campos ocultos
 
       public function cargarFormulario($request){
-        $this->idproveedor = $request->input('id') != "0" ? $request->input('id') : $this->idproveedor;
-        $this->nombre = $request->input('txtNombre');
-        $this->direccion = $request->input('txtDireccion');
-        $this->nit = $request->input('txtNit');
-        $this->fk_idrubro = $request->input('txtIdRubro');
+        $this->idproveedor = $_REQUEST['id'] != "0" ? $_REQUEST['id'] : $this->idproveedor;
+        $this->nombre = $_REQUEST['txtNombre'];
+        $this->direccion = $_REQUEST['txtDireccion'];
+        $this->nit = $_REQUEST['txtNit'];
+        $this->fk_idrubro = $_REQUEST['txtIdRubro'];
       }
 
       //metodos basicos
@@ -98,15 +98,15 @@ class Proveedor extends Model{
     public function guardar(){
         $sql = "UPDATE proveedores SET
                 nombre = '$this->nombre',
-                fk_idsucursal = '$this-> direccion',
+                direccion = '$this->direccion',
                 nit = '$this->nit',
-                fk_idrubro = $this -> fk_idrubro
+                fk_idrubro = $this->fk_idrubro
             WHERE idproveedor=?"; //se refiere a que lo busca en al parametro siguiente :
         $affected = DB::update($sql, [$this->idproveedor]);
     }
 
     public function eliminar(){
-        $sql = "DELETE FROM pedidos WHERE
+        $sql = "DELETE FROM proveedores WHERE
                 idproveedor=?";
         $affected = DB::delete($sql, [$this->idproveedor]);
     }

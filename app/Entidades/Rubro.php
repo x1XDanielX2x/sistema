@@ -17,8 +17,8 @@ class Rubro extends Model{
       protected $hidden = []; //campos ocultos
 
       public function cargarFormulario($request){
-        $this->idrubro = $request->input('id') != "0" ? $request->input('id') : $this->idrubro;
-        $this->nombre = $request->input('txtNombre');
+        $this->idrublo = $_REQUEST["id"] != "0" ? $_REQUEST["id"] : $this->idrublo;
+        $this->nombre = $_REQUEST["txtNombre"];
 
       }
 
