@@ -3,15 +3,30 @@
 namespace App\Http\Controllers;
 use App\Entidades\Cliente;
 use App\Entidades\Pedido;
+use App\Entidades\Sistema\Patente;
+use App\Entidades\Sistema\Usuario;
 use Illuminate\Http\Request;
 require app_path() . '/start/constants.php';
 
 class ControladorCliente extends Controller{
 
     public function index(){
+
         $titulo = "Listado de clientes";
-        return view("sistema.cliente-listado", compact("titulo"));
+        if (Usuario::autenticado() == true) {
+            if (!Patente::autorizarOperacion("CLIENTECONSULTA")) {
+                $codigo = "CLIENTECONSULTA";
+                $mensaje = "No tiene permisos para la operación.";
+                return view('sistema.pagina-error', compact('titulo', 'codigo', 'mensaje'));
+            } else {
+                return view("sistema.cliente-listado", compact("titulo"));
+            }
+        } else {
+            return redirect('admin/login');
+        }
     }
+        
+    
 
     public function cargarGrilla(){
         $request = $_REQUEST;
@@ -48,16 +63,38 @@ class ControladorCliente extends Controller{
     public function editar($idCliente){
 
         $titulo = "Edicion cliente";
-        $cliente=new Cliente();
-        $cliente->obtenerPorId($idCliente);
+        if (Usuario::autenticado() == true) {
+            if (!Patente::autorizarOperacion("CLIENTEEDITAR")) {
+                $codigo = "CLIENTEEDITAR";
+                $mensaje = "No tiene permisos para la operación.";
+                return view('sistema.pagina-error', compact('titulo', 'codigo', 'mensaje'));
+            } else {
+                $cliente=new Cliente();
+                $cliente->obtenerPorId($idCliente);
+                
+                return view('sistema.cliente-nuevo', compact('titulo', 'cliente'));
+            }
+        } else {
+            return redirect('admin/login');
+        }
         
-        return view('sistema.cliente-nuevo', compact('titulo', 'cliente'));
     }
 
     public function nuevo(){
         $titulo = 'Nuevo cliente';
-        $cliente =new Cliente();
-        return view("sistema.cliente-nuevo", compact("titulo",'cliente'));//en vez de colocar el '/' para el directorio, se coloca '.'... No se coloca la extension, ya que laravel sabe que es '.blade.php' automaticamente
+        if (Usuario::autenticado() == true) {
+            if (!Patente::autorizarOperacion("CLIENTEALTA")) {
+                $codigo = "CLIENTEALTA";
+                $mensaje = "No tiene permisos para la operación.";
+                return view('sistema.pagina-error', compact('titulo', 'codigo', 'mensaje'));
+            } else {
+                $cliente =new Cliente();
+                return view("sistema.cliente-nuevo", compact("titulo",'cliente'));
+            }
+        } else {
+            return redirect('admin/login');
+        }
+        //en vez de colocar el '/' para el directorio, se coloca '.'... No se coloca la extension, ya que laravel sabe que es '.blade.php' automaticamente
     } //Tampoco se coloca todo el directorio, ya que laravel sabe a que ruta debe dirigirse (resource/views)
 
     public function guardar(Request $request){
@@ -95,24 +132,36 @@ class ControladorCliente extends Controller{
     }
 
     public function eliminar(Request $request){
-        $idCliente = $request->input("id");
-        $pedido = new Pedido();
+        if (Usuario::autenticado() == true) {
+            if (!Patente::autorizarOperacion("CLIENTEELIMINAR")) {
+                $resultado["err"] = EXIT_FAILURE;
+                $resultado["mensaje"]="No tiene permisos para la operación.";
+            } else {
+                $idCliente = $request->input("id");
+                $pedido = new Pedido();
 
-        //Preguntar por is hay llaves foraneas
+                //Preguntar por is hay llaves foraneas
 
-        if($pedido->obtenerPedidosPorCliente($idCliente)){
-            $resultado["err"] = EXIT_FAILURE;
-            $resultado["mensaje"]="No se puede eliminar un cliente con pedidos asociados.";
+                if($pedido->obtenerPedidosPorCliente($idCliente)){
+                    $resultado["err"] = EXIT_FAILURE;
+                    $resultado["mensaje"]="No se puede eliminar un cliente con pedidos asociados.";
 
-        }else{
-            //logica eliminar
-            $cliente = new Cliente();
+                }else{
+                    //logica eliminar
+                    $cliente = new Cliente();
 
-            $cliente->idcliente=$idCliente;
-            $cliente->eliminar();
-            $resultado["err"] = EXIT_SUCCESS;
-            $resultado["mensaje"] = "Registro eliminado exitosamente";
-        }
+                    $cliente->idcliente=$idCliente;
+                    $cliente->eliminar();
+                    $resultado["err"] = EXIT_SUCCESS;
+                    $resultado["mensaje"] = "Registro eliminado exitosamente";
+                }
+                    }
+                } else {
+                    $resultado["err"] = EXIT_FAILURE;
+                $resultado["mensaje"]="Usuario no autenticado.";
+                }
+
+        
         return json_encode($resultado);
     }
 }
