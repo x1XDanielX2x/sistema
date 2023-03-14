@@ -5,6 +5,8 @@ use App\Entidades\Pedido;
 use App\Entidades\Cliente;
 use App\Entidades\Sucursal;
 use App\Entidades\Estado_Pedido;
+use App\Entidades\Sistema\Patente;
+use App\Entidades\Sistema\Usuario;
 use Illuminate\http\Request;
 require app_path() . '/start/constants.php';
 
@@ -13,7 +15,17 @@ class ControladorPedido extends Controller{
 
       public function index(){
             $titulo = "Listado de Pedidos";
-            return view("sistema.pedido-listado", compact("titulo"));
+            if (Usuario::autenticado() == true) {
+                if (!Patente::autorizarOperacion("PEDIDOCONSULTA")) {
+                    $codigo = "PEDIDOCONSULTA";
+                    $mensaje = "No tiene permisos para la operación.";
+                    return view('sistema.pagina-error', compact('titulo', 'codigo', 'mensaje'));
+                } else {
+                    return view("sistema.pedido-listado", compact("titulo"));
+                }
+            } else {
+                return redirect('admin/login');
+            }
         }
     
         public function cargarGrilla(){
@@ -51,23 +63,33 @@ class ControladorPedido extends Controller{
         public function editar($idPedido){
 
             $titulo = "Edicion pedido";
+            if (Usuario::autenticado() == true) {
+                if (!Patente::autorizarOperacion("PEDIDOEDITAR")) {
+                    $codigo = "PEDIDOEDITAR";
+                    $mensaje = "No tiene permisos para la operación.";
+                    return view('sistema.pagina-error', compact('titulo', 'codigo', 'mensaje'));
+                } else {
+                    $pedido=new Pedido();
+                    $pedido->obtenerPorId($idPedido);
 
-            $pedido=new Pedido();
-            $pedido->obtenerPorId($idPedido);
+                    $cliente = new Cliente();
+                    //$cliente->obtenerPorId($idPedido);
+                    $aClientes=$cliente->obtenerTodos();
 
-            $cliente = new Cliente();
-            //$cliente->obtenerPorId($idPedido);
-            $aClientes=$cliente->obtenerTodos();
+                    $sucursal = new Sucursal();
+                    //$sucursal->obtenerPorId($idPedido);
+                    $aSucursales=$sucursal->obtenerTodos();
 
-            $sucursal = new Sucursal();
-            //$sucursal->obtenerPorId($idPedido);
-            $aSucursales=$sucursal->obtenerTodos();
-
-            $estadopedido = new Estado_Pedido();
-            //$estadopedido->obtenerPorId($idPedido);
-            $aEstadoPedidos=$estadopedido->obtenerTodos();
+                    $estadopedido = new Estado_Pedido();
+                    //$estadopedido->obtenerPorId($idPedido);
+                    $aEstadoPedidos=$estadopedido->obtenerTodos();
+                    
+                    return view('sistema.pedido-nuevo', compact('titulo', 'pedido', 'aClientes', 'aSucursales', 'aEstadoPedidos'));
+                }
+            } else {
+                return redirect('admin/login');
+            }
             
-            return view('sistema.pedido-nuevo', compact('titulo', 'pedido', 'aClientes', 'aSucursales', 'aEstadoPedidos'));
         }
     
           public function Nuevo(){

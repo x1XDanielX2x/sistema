@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use App\Entidades\Pedido;
 use App\Entidades\Sucursal;
+use App\Entidades\Sistema\Patente;
+use App\Entidades\Sistema\Usuario;
 use Illuminate\http\Request;
 require app_path() . '/start/constants.php';
 
@@ -11,7 +13,17 @@ class ControladorSucursal extends Controller{
 
       public function index(){
             $titulo = "Listado de Sucursales";
-            return view("sistema.sucursal-listado", compact("titulo"));
+            if (Usuario::autenticado() == true) {
+                if (!Patente::autorizarOperacion("SUCURSALCONSULTA")) {
+                    $codigo = "SUCURSALCONSULTA";
+                    $mensaje = "No tiene permisos para la operación.";
+                    return view('sistema.pagina-error', compact('titulo', 'codigo', 'mensaje'));
+                } else {
+                    return view("sistema.sucursal-listado", compact("titulo"));
+                }
+            } else {
+                return redirect('admin/login');
+            }
         }
     
         public function cargarGrilla(){
@@ -49,10 +61,21 @@ class ControladorSucursal extends Controller{
         public function editar($idSucursal){
 
             $titulo = "Edicion sucursal";
-            $sucursal=new Sucursal();
-            $sucursal->obtenerPorId($idSucursal);
+            if (Usuario::autenticado() == true) {
+                if (!Patente::autorizarOperacion("SUCURSALEDITAR")) {
+                    $codigo = "SUCURSALEDITAR";
+                    $mensaje = "No tiene permisos para la operación.";
+                    return view('sistema.pagina-error', compact('titulo', 'codigo', 'mensaje'));
+                } else {
+                    $sucursal=new Sucursal();
+                    $sucursal->obtenerPorId($idSucursal);
+                    
+                    return view('sistema.sucursal-nuevo', compact('titulo', 'sucursal'));
+                }
+            } else {
+                return redirect('admin/login');
+            }
             
-            return view('sistema.sucursal-nuevo', compact('titulo', 'sucursal'));
         }
 
         public function Nuevo(){

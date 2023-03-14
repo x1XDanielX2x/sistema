@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 use App\Entidades\Rubro;
+use App\Entidades\Sistema\Patente;
+use App\Entidades\Sistema\Usuario;
 use Illuminate\http\Request;
 require app_path() . '/start/constants.php';
 
@@ -10,7 +12,18 @@ class ControladorRubro extends Controller{
 
       public function index(){
             $titulo = "Listado de rubros";
-            return view("sistema.rubro-listado", compact("titulo"));
+            if (Usuario::autenticado() == true) {
+                if (!Patente::autorizarOperacion("PRODUCTOCONSULTA")) {
+                    $codigo = "PRODUCTOCONSULTA";
+                    $mensaje = "No tiene permisos para la operación.";
+                    return view('sistema.pagina-error', compact('titulo', 'codigo', 'mensaje'));
+                } else {
+                    return view("sistema.rubro-listado", compact("titulo"));
+                }
+            } else {
+                return redirect('admin/login');
+            }
+            
         }
     
         public function cargarGrilla(){

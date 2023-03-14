@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 use App\Entidades\Postulacion;
+use App\Entidades\Sistema\Patente;
+use App\Entidades\Sistema\Usuario;
 use Illuminate\http\Request;
 require app_path() . '/start/constants.php';
 
@@ -10,7 +12,17 @@ class ControladorPostulacion extends Controller{
 
       public function index(){
             $titulo = "Listado de postulaciones";
-            return view("sistema.postulacion-listado", compact("titulo"));
+            if (Usuario::autenticado() == true) {
+                if (!Patente::autorizarOperacion("POSTULANTECONSULTA")) {
+                    $codigo = "POSTULANTECONSULTA";
+                    $mensaje = "No tiene permisos para la operación.";
+                    return view('sistema.pagina-error', compact('titulo', 'codigo', 'mensaje'));
+                } else {
+                    return view("sistema.postulacion-listado", compact("titulo"));
+                }
+            } else {
+                return redirect('admin/login');
+            }
         }
     
         public function cargarGrilla(){
@@ -48,10 +60,21 @@ class ControladorPostulacion extends Controller{
         public function editar($idPostulacion){
 
             $titulo = "Edicion postulacion";
-            $postulacion=new Postulacion();
-            $postulacion->obtenerPorId($idPostulacion);
+            if (Usuario::autenticado() == true) {
+                if (!Patente::autorizarOperacion("POSTULANTEEDITAR")) {
+                    $codigo = "POSTULANTEEDITAR";
+                    $mensaje = "No tiene permisos para la operación.";
+                    return view('sistema.pagina-error', compact('titulo', 'codigo', 'mensaje'));
+                } else {
+                    $postulacion=new Postulacion();
+                    $postulacion->obtenerPorId($idPostulacion);
+                    
+                    return view('sistema.postulacion-nuevo', compact('titulo', 'postulacion'));
+                }
+            } else {
+                return redirect('admin/login');
+            }
             
-            return view('sistema.postulacion-nuevo', compact('titulo', 'postulacion'));
         }
     
           public function Nuevo(){

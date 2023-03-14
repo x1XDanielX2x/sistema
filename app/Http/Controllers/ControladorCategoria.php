@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 use App\Entidades\Tipo_Producto;
+use App\Entidades\Sistema\Patente;
+use App\Entidades\Sistema\Usuario;
 use Illuminate\http\Request;
 require app_path() . '/start/constants.php';
 
@@ -9,7 +11,18 @@ class ControladorCategoria extends Controller{
 
       public function index(){
             $titulo = "Listado de categorias";
-            return view("sistema.categoria-listado", compact("titulo"));
+            if (Usuario::autenticado() == true) {
+                if (!Patente::autorizarOperacion("CONSULTACONSULTA")) {
+                    $codigo = "CONSULTACONSULTA";
+                    $mensaje = "No tiene permisos para la operación.";
+                    return view('sistema.pagina-error', compact('titulo', 'codigo', 'mensaje'));
+                } else {
+                    return view("sistema.categoria-listado", compact("titulo"));
+                }
+            } else {
+                return redirect('admin/login');
+            }
+            
         }
     
         public function cargarGrilla(){
@@ -44,6 +57,7 @@ class ControladorCategoria extends Controller{
         public function editar($idTipoProducto){
 
             $titulo = "Edicion categoria";
+            
             $categoria=new Tipo_Producto();
             $categoria->obtenerPorId($idTipoProducto);
             

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use App\Entidades\Producto;
 use Illuminate\http\Request;
+use App\Entidades\Sistema\Patente;
+use App\Entidades\Sistema\Usuario;
 use App\Entidades\Tipo_Producto;
 require app_path() . '/start/constants.php';
 
@@ -11,7 +13,18 @@ class ControladorProducto extends Controller{
 
     public function index(){
         $titulo = "Listado de productos";
-        return view("sistema.producto-listado", compact("titulo"));
+        if (Usuario::autenticado() == true) {
+            if (!Patente::autorizarOperacion("PRODUCTOCONSULTA")) {
+                $codigo = "PRODUCTOCONSULTA";
+                $mensaje = "No tiene permisos para la operación.";
+                return view('sistema.pagina-error', compact('titulo', 'codigo', 'mensaje'));
+            } else {
+                return view("sistema.producto-listado", compact("titulo"));
+            }
+        } else {
+            return redirect('admin/login');
+        }
+        
     }
 
     public function cargarGrilla(){
@@ -49,12 +62,23 @@ class ControladorProducto extends Controller{
     public function editar($idProducto){
 
         $titulo = "Edicion producto";
-        $producto=new Producto();
-        $producto->obtenerPorId($idProducto);
-        $categoria=new Tipo_Producto();
-        $aCategorias=$categoria->obtenerTodos();
+        if (Usuario::autenticado() == true) {
+            if (!Patente::autorizarOperacion("PRODUCTOEDITAR")) {
+                $codigo = "PRODUCTOEDITAR";
+                $mensaje = "No tiene permisos para la operación.";
+                return view('sistema.pagina-error', compact('titulo', 'codigo', 'mensaje'));
+            } else {
+                $producto=new Producto();
+                $producto->obtenerPorId($idProducto);
+                $categoria=new Tipo_Producto();
+                $aCategorias=$categoria->obtenerTodos();
+                
+                return view('sistema.producto-nuevo', compact('titulo', 'producto','aCategorias'));
+            }
+        } else {
+            return redirect('admin/login');
+        }
         
-        return view('sistema.producto-nuevo', compact('titulo', 'producto','aCategorias'));
     }
 
       public function Nuevo(){
