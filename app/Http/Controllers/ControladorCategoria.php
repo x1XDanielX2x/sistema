@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Entidades\Tipo_Producto;
+use App\Entidades\Producto;
 use App\Entidades\Sistema\Patente;
 use App\Entidades\Sistema\Usuario;
 use Illuminate\http\Request;
@@ -106,7 +107,13 @@ class ControladorCategoria extends Controller{
 
         public function eliminar(Request $request){
             $idCategoria = $_REQUEST["id"];
+            $producto=new Producto();
 
+            if($producto->obtenerProductosPorCategoria($idCategoria)){
+                $resultado["err"] = EXIT_FAILURE;
+                $resultado["mensaje"]="No se puede eliminar una categoria con productos asociados.";
+
+            }else{
                 //logica eliminar
                 $categoria = new Tipo_Producto();
     
@@ -114,8 +121,8 @@ class ControladorCategoria extends Controller{
                 $categoria->eliminar();
                 $resultado["err"] = EXIT_SUCCESS;
                 $resultado["mensaje"] = "Registro eliminado exitosamente";
+            }
 
-            
             return json_encode($resultado);
         }
 

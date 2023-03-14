@@ -74,6 +74,8 @@ class Tipo_Producto extends Model{
         return $lstRetorno;
     }
 
+    
+
     public function guardar(){
         $sql = "UPDATE tipo_productos SET
                 nombre = '$this->nombre'

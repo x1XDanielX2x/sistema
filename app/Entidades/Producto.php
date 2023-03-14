@@ -116,6 +116,19 @@ class Producto extends Model{
 		$lstRetorno = DB::select($sql);
 	}
 
+    public function obtenerProductosPorCategoria($idCategoria){
+        $sql = "SELECT 
+				idproducto,
+				titulo,
+				precio,
+				cantidad,
+				descripcion,
+				imagen,
+				fk_idtipoproducto
+			FROM productos WHERE fk_idtipoproducto = $idCategoria";
+		$lstRetorno = DB::select($sql);
+    }
+
     public function guardar(){
         $sql = "UPDATE productos SET
                 precio = $this->precio,
