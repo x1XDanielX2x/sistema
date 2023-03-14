@@ -126,7 +126,7 @@
                 </svg>
               </a>
               <a href="/login" class="order_online">
-                IniciarSesion
+                Iniciar Sesion
               </a>
             </div>
           </div>
@@ -146,19 +146,19 @@
         <div class="col-md-4 footer-col">
           <div class="footer_contact">
             <h4>
-              Contact Us
+              Contactanos
             </h4>
             <div class="contact_link_box">
               <a href="">
                 <i class="fa fa-map-marker" aria-hidden="true"></i>
                 <span>
-                  Location
+                  Localización
                 </span>
               </a>
               <a href="">
                 <i class="fa fa-phone" aria-hidden="true"></i>
                 <span>
-                  Call +01 1234567890
+                  Tel: +57 3162754213
                 </span>
               </a>
               <a href="">
@@ -176,7 +176,7 @@
               Feane
             </a>
             <p>
-              Necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with
+            Disfruta del delicioso sabor de nuestras hamburguesas, perros calientes, ensaladas, wraps, papas a la francesa, malteadas, helados y mucho más ¡Entra ya!
             </p>
             <div class="footer_social">
               <a href="">
@@ -199,10 +199,10 @@
         </div>
         <div class="col-md-4 footer-col">
           <h4>
-            Opening Hours
+            Abierto
           </h4>
           <p>
-            Everyday
+            Martes-Domingo
           </p>
           <p>
             10.00 Am -10.00 Pm
@@ -211,9 +211,9 @@
       </div>
       <div class="footer-info">
         <p>
-          &copy; <span id="displayYear"></span> All Rights Reserved By
+          &copy; <span id="displayYear"></span> Todos derechos reservados por
           <a href="https://html.design/">Free Html Templates</a><br><br>
-          &copy; <span id="displayYear"></span> Distributed By
+          &copy; <span id="displayYear"></span> Distribuido por
           <a href="https://themewagon.com/" target="_blank">ThemeWagon</a>
         </p>
       </div>
