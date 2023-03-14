@@ -16,11 +16,22 @@
 
 Route::group(array('domain' => '127.0.0.1'), function () {
 
+/* --------------------------------------------- */
+/* ECOMMERCE                                     */
+/* --------------------------------------------- */
+
     Route::get('/', 'ControladorWebHome@index');
+    Route::get('/takeaway', 'ControladorWebTakeaway@index');
+    Route::get('/nosotros', 'ControladorWebNosotros@index');
+    Route::get('/contacto', 'ControladorWebContacto@index');
+
+
+/* --------------------------------------------- */
+/* ADMINISTRATIVO                                */
+/* --------------------------------------------- */
  
 
     Route::get('/admin', 'ControladorHome@index');
-    Route::post('/admin/patente/nuevo', 'ControladorPatente@guardar');
 
 /* --------------------------------------------- */
 /* CONTROLADOR LOGIN                           */
@@ -206,3 +217,5 @@ Route::get('/admin/rubros/cargarGrilla', 'ControladorRubro@cargarGrilla')->name(
 Route::get('/admin/rubro/eliminar', 'ControladorRubro@eliminar');
 Route::get('/admin/rubro/{idRubro}', 'ControladorRubro@editar');
 Route::post('/admin/rubro/{idRubro}', 'ControladorRubro@guardar');
+
+
