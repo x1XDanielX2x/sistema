@@ -7,16 +7,16 @@
     <div class="container">
       <div class="heading_container heading_center">
         <h2>
-          Our Menu
+          Nuestro Menu
         </h2>
       </div>
 
       <ul class="filters_menu">
-        <li class="active" data-filter="*">All</li>
-        <li data-filter=".burger">Burger</li>
+        <li class="active" data-filter="*">Todos</li>
+        <li data-filter=".burger">Hamburgesa</li>
         <li data-filter=".pizza">Pizza</li>
         <li data-filter=".pasta">Pasta</li>
-        <li data-filter=".fries">Fries</li>
+        <li data-filter=".fries">Fritos</li>
       </ul>
 
       <div class="filters-content">
@@ -29,10 +29,10 @@
                 </div>
                 <div class="detail-box">
                   <h5>
-                    Delicious Pizza
+                    Deliciosa Pizza
                   </h5>
                   <p>
-                    Veniam debitis quaerat officiis quasi cupiditate quo, quisquam velit, magnam voluptatem repellendus sed eaque
+                    Una de nuestras mejores pizzas, excelente masa en su punto crujente y suavidad, verduras frescas, queso delicioso
                   </p>
                   <div class="options">
                     <h6>
@@ -105,10 +105,10 @@
                 </div>
                 <div class="detail-box">
                   <h5>
-                    Delicious Burger
+                    Deliciosa Hamburgesa
                   </h5>
                   <p>
-                    Veniam debitis quaerat officiis quasi cupiditate quo, quisquam velit, magnam voluptatem repellendus sed eaque
+                    Pan, carne, verdura, papas chips, salsas... Excelente combinacion para tu paladar
                   </p>
                   <div class="options">
                     <h6>
@@ -181,10 +181,10 @@
                 </div>
                 <div class="detail-box">
                   <h5>
-                    Delicious Pizza
+                    Deliciosa Pizza
                   </h5>
                   <p>
-                    Veniam debitis quaerat officiis quasi cupiditate quo, quisquam velit, magnam voluptatem repellendus sed eaque
+                  Una de nuestras mejores pizzas, excelente masa en su punto crujente y suavidad, verduras frescas, queso delicioso
                   </p>
                   <div class="options">
                     <h6>
@@ -257,10 +257,10 @@
                 </div>
                 <div class="detail-box">
                   <h5>
-                    Delicious Pasta
+                    Deliciosa Pasta
                   </h5>
                   <p>
-                    Veniam debitis quaerat officiis quasi cupiditate quo, quisquam velit, magnam voluptatem repellendus sed eaque
+                    Pasta con sabor casera, con el toque secreto de la abuela.
                   </p>
                   <div class="options">
                     <h6>
@@ -333,10 +333,10 @@
                 </div>
                 <div class="detail-box">
                   <h5>
-                    French Fries
+                    Papas Fritas
                   </h5>
                   <p>
-                    Veniam debitis quaerat officiis quasi cupiditate quo, quisquam velit, magnam voluptatem repellendus sed eaque
+                    Cocinadas y crujientes... perfecto complemento para tu comida.
                   </p>
                   <div class="options">
                     <h6>
@@ -409,10 +409,10 @@
                 </div>
                 <div class="detail-box">
                   <h5>
-                    Delicious Pizza
+                    Deliciosa Pizza
                   </h5>
                   <p>
-                    Veniam debitis quaerat officiis quasi cupiditate quo, quisquam velit, magnam voluptatem repellendus sed eaque
+                  Una de nuestras mejores pizzas, excelente masa en su punto crujente y suavidad, verduras frescas, queso delicioso
                   </p>
                   <div class="options">
                     <h6>
@@ -485,10 +485,10 @@
                 </div>
                 <div class="detail-box">
                   <h5>
-                    Tasty Burger
+                    Deliciosa Hamburgesa
                   </h5>
                   <p>
-                    Veniam debitis quaerat officiis quasi cupiditate quo, quisquam velit, magnam voluptatem repellendus sed eaque
+                  Pan, carne, verdura, papas chips, salsas... Excelente combinacion para tu paladar
                   </p>
                   <div class="options">
                     <h6>
@@ -561,10 +561,10 @@
                 </div>
                 <div class="detail-box">
                   <h5>
-                    Tasty Burger
+                    Deliciosa Hamburgesa
                   </h5>
                   <p>
-                    Veniam debitis quaerat officiis quasi cupiditate quo, quisquam velit, magnam voluptatem repellendus sed eaque
+                  Pan, carne, verdura, papas chips, salsas... Excelente combinacion para tu paladar
                   </p>
                   <div class="options">
                     <h6>
@@ -637,10 +637,10 @@
                 </div>
                 <div class="detail-box">
                   <h5>
-                    Delicious Pasta
+                    Deliciosa Pasta
                   </h5>
                   <p>
-                    Veniam debitis quaerat officiis quasi cupiditate quo, quisquam velit, magnam voluptatem repellendus sed eaque
+                  Pasta con sabor casera, con el toque secreto de la abuela.
                   </p>
                   <div class="options">
                     <h6>
@@ -709,7 +709,7 @@
       </div>
       <div class="btn-box">
         <a href="">
-          View More
+          Ver mas
         </a>
       </div>
     </div>

@@ -16,7 +16,7 @@
           <div class="detail-box">
             <div class="heading_container">
               <h2>
-                We Are Feane
+                Nosotros somos Feane
               </h2>
             </div>
             <p>
@@ -26,7 +26,7 @@
               the middle of text. All
             </p>
             <a href="">
-              Read More
+              Leer Mas
             </a>
           </div>
         </div>

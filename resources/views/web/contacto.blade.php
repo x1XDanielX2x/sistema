@@ -7,7 +7,7 @@
     <div class="container">
       <div class="heading_container">
         <h2>
-          Book A Table
+          Contactanos
         </h2>
       </div>
       <div class="row">
@@ -15,13 +15,13 @@
           <div class="form_container">
             <form action="">
               <div>
-                <input type="text" class="form-control" placeholder="Your Name" />
+                <input type="text" class="form-control" placeholder="Tu nombre" />
               </div>
               <div>
-                <input type="text" class="form-control" placeholder="Phone Number" />
+                <input type="text" class="form-control" placeholder="Tu numero" />
               </div>
               <div>
-                <input type="email" class="form-control" placeholder="Your Email" />
+                <input type="email" class="form-control" placeholder="Tu correo" />
               </div>
               <div>
                 <select class="form-control nice-select wide">

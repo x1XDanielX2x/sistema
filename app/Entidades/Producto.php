@@ -74,27 +74,29 @@ class Producto extends Model{
     {
         $request = $_REQUEST;
         $columns = array(
-            0 => 'titulo',
-            1 => 'tipoproducto',
-            2 => 'cantidad',
-            3 => 'precio'
+            0 => 'P.titulo',
+            1 => 'T.categoria',
+            2 => 'P.cantidad',
+            3 => 'P.precio'
         );
         $sql = "SELECT DISTINCT
                 idproducto,
                 titulo,
                 fk_idtipoproducto,
                 cantidad,
-                precio
-            FROM productos
+                precio,
+                T.nombre as categoria
+            FROM productos P
+            INNER JOIN tipo_productos T ON P.fk_idtipoproducto = T.idtipoproducto
                 WHERE 1=1
                 ";
 
         //Realiza el filtrado
         if (!empty($request['search']['value'])) {
-            $sql .= " AND ( titulo LIKE '%" . $request['search']['value'] . "%' ";
-            $sql .= " OR fk_idtipoproducto LIKE '%" . $request['search']['value'] . "%' ";
-            $sql .= " cantidad LIKE '%" . $request['search']['value'] . "%' )";
-            $sql .= " precio LIKE '%" . $request['search']['value'] . "%' )";
+            $sql .= " AND ( P.titulo LIKE '%" . $request['search']['value'] . "%' ";
+            $sql .= " OR P.fk_idtipoproducto LIKE '%" . $request['search']['value'] . "%' ";
+            $sql .= " P.cantidad LIKE '%" . $request['search']['value'] . "%' )";
+            $sql .= " P.precio LIKE '%" . $request['search']['value'] . "%' )";
         }
         $sql .= " ORDER BY " . $columns[$request['order'][0]['column']] . "   " . $request['order'][0]['dir'];
 

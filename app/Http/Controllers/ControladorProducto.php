@@ -43,9 +43,9 @@ class ControladorProducto extends Controller{
         for ($i = $inicio; $i < count($aProductos) && $cont < $registros_por_pagina; $i++) {
             $row = array();
             $row[] = '<a href="/admin/producto/' . $aProductos[$i]->idproducto . '">' . $aProductos[$i]->titulo . '</a>';
-            $row[] = $aProductos[$i]->fk_idtipoproducto;
+            $row[] = $aProductos[$i]->categoria;
             $row[] = $aProductos[$i]->cantidad;
-            $row[] = $aProductos[$i]->precio;
+            $row[] = number_format($aProductos[$i]->precio, 0, ',','.');
             $cont++;
             $data[] = $row;
         }
