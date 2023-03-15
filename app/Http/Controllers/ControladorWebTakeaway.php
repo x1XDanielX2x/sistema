@@ -7,6 +7,8 @@ use App\Entidades\Producto;
 
 use App\Entidades\Sistema\Patente;
 use App\Entidades\Sistema\Usuario;
+use Illuminate\Http\Request;
+
 use Session;
 
 class ControladorWebTakeaway extends Controller
@@ -22,5 +24,11 @@ class ControladorWebTakeaway extends Controller
 
 
         return view("web.takeaway", compact("aCategorias","aProductos"));
+    }
+
+    public function insertar(Request $request){
+        $idCliente = Session::get("idCliente");
+        $idProducto = $request->input("txtIdProducto");
+        $cantidad = $request->input("txtCantidad");
     }
 }

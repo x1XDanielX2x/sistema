@@ -29,15 +29,18 @@ class ControladorWebRegistrarse extends Controller
         $entidad->telefono = $request->input("txtTelefono");
         $entidad->correo = $request->input("txtCorreo");
 
+        $sucursal=new Sucursal();
+        $aSucursales =$sucursal->obtenerTodos();
 
         if ($entidad->nombre == "" || $entidad->telefono == "" || $entidad->direccion == "" || $entidad->dni == "" || $entidad->correo == "" || $entidad->clave == "") {
             $msg["ESTADO"] = MSG_ERROR;
             $msg["MSG"] = "Complete todos los datos";
+            return view("web.registrarse", compact('titulo', 'msg', 'aSucursales'));
         } else {
             $entidad->guardar();
-            $msg["ESTADO"] = MSG_SUCCESS;
-            $msg["MSG"] = "Registro exitoso";
+            $mensaje = "Registro Exitoso";
+            return view("web.login", compact('mensaje', "aSucursales"));
         }
-        return view("web.registrarse", compact('titulo', 'msg'));
+        
     }
 }

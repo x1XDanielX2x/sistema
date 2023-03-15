@@ -30,14 +30,17 @@ class Producto extends Model{
 
     public function obtenerTodos(){
         $sql="SELECT 
-                idproducto,
-                precio,
-                fk_idtipoproducto,
-                titulo,
-                descripcion,
-                cantidad,
-                imagen
-            FROM productos ORDER BY titulo ASC";
+            P.idproducto,
+            p.precio,
+            p.fk_idtipoproducto,
+            p.titulo,
+            p.descripcion,
+            p.cantidad,
+            p.imagen,
+            T.nombre as categoria
+        FROM productos P
+        INNER JOIN tipo_productos T on P.fk_idtipoproducto=T.idtipoproducto
+        ORDER BY P.titulo ASC";
 
         $lstRetorno = DB::select($sql);
         return $lstRetorno;
@@ -170,4 +173,3 @@ class Producto extends Model{
         return $this->idproducto = DB::getPdo()->lastInsertId();
     }
 }
-?>
