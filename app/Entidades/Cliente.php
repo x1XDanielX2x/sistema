@@ -25,7 +25,7 @@ class Cliente extends Model{
         $this->direccion = $request->input('txtDireccion');
         $this->dni = $request->input('txtDocumento');
         $this->correo = $request->input('txtCorreo');
-        $this->clave = $request->input('txtClave');
+        $this->clave = password_hash($request->input('txtClave'),PASSWORD_DEFAULT);
       }
 
     public function obtenerTodos(){
@@ -139,6 +139,32 @@ class Cliente extends Model{
             $this->clave
         ]);
         return $this->idcliente = DB::getPdo()->lastInsertId();
+    }
+
+    public function obtenerPorCorreo($correo){
+        $sql="SELECT 
+                idcliente,
+                nombre,
+                telefono,
+                direccion,
+                dni,
+                correo,
+                clave
+            FROM clientes WHERE correo = '$correo'";
+
+        $lstRetorno = DB::select($sql);
+
+        if(count($lstRetorno) > 0){
+            $this->idcliente = $lstRetorno[0]->idcliente;
+            $this->nombre = $lstRetorno[0]->nombre;
+            $this->telefono = $lstRetorno[0]->telefono;
+            $this->direccion = $lstRetorno[0]->direccion;
+            $this->dni = $lstRetorno[0]->dni;
+            $this->correo = $lstRetorno[0]->correo;
+            $this->clave = $lstRetorno[0]->clave;
+            return $this;
+        }
+        return null;
     }
 }
 ?>

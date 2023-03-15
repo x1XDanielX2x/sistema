@@ -125,9 +125,15 @@
                   </g>
                 </svg>
               </a>
-              <a href="/login" class="order_online">
-                Iniciar Sesion
+              @if(Session::get("idCliente") && Session::get("idCliente") >0 )
+              <a href="/logout" class="order_online">
+                 Cerrar Sesion
               </a>
+              @else
+              <a href="/login" class="order_online">
+              Iniciar Sesion
+              </a>
+              @endif
             </div>
           </div>
         </nav>

@@ -42,6 +42,7 @@ class ControladorProducto extends Controller{
 
         for ($i = $inicio; $i < count($aProductos) && $cont < $registros_por_pagina; $i++) {
             $row = array();
+            $row[] = '<img class="img-thumbnail" src="/files/' . $aProductos[$i]->imagen . '">';
             $row[] = '<a href="/admin/producto/' . $aProductos[$i]->idproducto . '">' . $aProductos[$i]->titulo . '</a>';
             $row[] = $aProductos[$i]->categoria;
             $row[] = $aProductos[$i]->cantidad;
@@ -92,7 +93,7 @@ class ControladorProducto extends Controller{
             return view('sistema.producto-nuevo', compact("titulo", "aCategorias", "producto"));
       }
 
-      public function guardar(Request $request){
+        public function guardar(Request $request){
         
         
             try{
@@ -100,6 +101,14 @@ class ControladorProducto extends Controller{
                 $titulo = "Modificar producto";
                 $producto=new Producto();
                 $producto->cargarFormulario($request);
+
+                if($_FILES["imagen"]["error"] === UPLOAD_ERR_OK){
+                    $extension = pathinfo($_FILES["imagen"]["name"], PATHINFO_EXTENSION);
+                    $nombre = date("Ymdhmsi") . ".$extension";
+                    $archivo = $_FILES["imagen"]["tmp_name"];
+                    move_uploaded_file($archivo, env('APP_PATH') . "/public/files/$nombre");
+                    $producto->imagen=$nombre;
+                }
     
                 if($producto->precio == "" || $producto->cantidad == "" || $producto->descripcion == "" || $producto->titulo == "" || $producto->fk_idtipoproducto == ""){
 
@@ -107,6 +116,17 @@ class ControladorProducto extends Controller{
                     $msg["MSG"] = "Complete todos los datos";
                 }else{
                     if($_POST["id"] > 0 ){
+
+                        $imagenAnt = new Producto();
+                        $imagenAnt->obtenerPorId($producto->idproducto);
+
+                        if($_FILES["imagen"]["error"] === UPLOAD_ERR_OK){
+                            //Eliminar imagen anterior
+                            @unlink(env('APP_PATH') . "/public/files/$imagenAnt->imagen");                          
+                        } else {
+                            $producto->imagen = $imagenAnt->imagen;
+                        }
+
                         $producto->guardar();
                         $msg["ESTADO"] = MSG_SUCCESS;
                         $msg["MSG"] = OKINSERT;

@@ -26,20 +26,25 @@
                                                 </tr>
                                           </thead>
                                           <tbody>
+                                                @foreach($aProductos as $producto)
                                                 <tr>
                                                       <td>
-                                                            <!-- Titulo -->
+                                                            <img src="" class="img-tumbnail">
                                                       </td>
                                                       <td>
-                                                            <!-- Precio -->
+                                                            {{producto->titulo}}
                                                       </td>
                                                       <td>
-                                                            <!-- Cantidad -->
+                                                            {{producto->precio}}
                                                       </td>
                                                       <td>
-                                                            <!-- SubTotal -->
+                                                            {{producto->cantidad}}
+                                                      </td>
+                                                      <td>
+                                                            {{producto->subtotal}}
                                                       </td>
                                                 </tr>
+                                                @endforeach
                                           </tbody>
                                     </table>
                               </div>

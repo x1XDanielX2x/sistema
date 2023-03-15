@@ -23,10 +23,12 @@ class ControladorWebRecuperarClave extends Controller{
 
       public function recuperar(Request $request){
             $titulo='Recupero de clave';
-            $email= $request->input('txtMail');
+            $correo= $request->input('txtMail');
+            $clave = rand(1000, 9999);
     
             $cliente = new Cliente();
-            if($cliente->verificarExistenciaMail($email)){
+            $cliente->obtenerPorCorreo($correo);
+            if($cliente->correo !=""){
                 //Envia  mail con las instrucciones
     
                 $data = "Instrucciones";
@@ -45,19 +47,20 @@ class ControladorWebRecuperarClave extends Controller{
     
                     //Recipients
                     $mail->setFrom(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
-                    $mail->addAddress($email);
-                    $mail->addReplyTo('no-reply@fmed.uba.ar');
+                    $mail->addAddress($correo);
     
                     //Content
                     $mail->isHTML(true);
                     $mail->Subject = 'Recupero de clave';
-                    $mail->Body    = "Haz clic en el siguiente enlace para cambiar la clave: 
+                    $mail->Body    = "Los datos de acceso son:
+                    Usuario: $cliente->correo
+                    Clave: $clave
+                    ";
     
-                    ". env("APP_URL") ."/cambio-clave/$email/" . csrf_token();
+                    //$mail->send();
+
+                    $mensaje = "La nueva clave es: $clave,y te enviamos al correo. {{$cliente->correo}}";
     
-                    $mail->send();
-    
-                    $mensaje = "Te hemos enviado las instrucciones al correo.";
                     return view('web.recuperarclave', compact('titulo', 'mensaje'));
     
                 } catch (Exception $e) {
@@ -65,6 +68,7 @@ class ControladorWebRecuperarClave extends Controller{
                     return view('web.recuperarclave', compact('titulo', 'mensaje'));
                 }  
             } else {
+                $mensaje="El correo ingresado no existe.";
                 return view('web.recuperarclave', compact('titulo', 'mensaje'));
             }
         }

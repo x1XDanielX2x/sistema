@@ -39,7 +39,7 @@ if (isset($msg)) {
 ?>
 <div id = "msg"></div>
 <div class="panel-body">
-      <form id="form1" method="POST">
+      <form id="form1" method="POST" enctype="multipart/form-data">
             <div class="row">
                   <input type="hidden" name="_token" value="{{ csrf_token() }}"></input>
                   <input type="hidden" id="id" name="id" class="form-control" value="{{$globalId}}" required>
@@ -74,9 +74,9 @@ if (isset($msg)) {
                         <label>Descripcion: *</label>
                         <input type="text" id="txtDescripcion" name="txtDescripcion" class="form-control" value="{{ $producto->descripcion }}" required>
                   </div>
-                  <div class="col-6 form-group">
-                    <label>Imagen:*</label>
-                    <input type="text" id="txtImagen" name="txtImagen" class="form-control" value="{{ $producto->imagen }}" required>
+                  <div class="col-6 form-group">      
+                    <input type="file" id="imagen" name="imagen" class="form-control-file" required>
+                    <img src="" alt="">
                 </div>
             </div>
       </form>

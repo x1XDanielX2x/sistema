@@ -25,7 +25,7 @@ class Producto extends Model{
         $this->cantidad = $_REQUEST['txtCantidad'];
         $this->descripcion = $_REQUEST['txtDescripcion'];
         $this->titulo = $_REQUEST['txtTitulo'];
-        $this->imagen = $_REQUEST['txtImagen'];
+        $this->imagen = $request->input('imagen');
       }
 
     public function obtenerTodos(){
@@ -74,17 +74,19 @@ class Producto extends Model{
     {
         $request = $_REQUEST;
         $columns = array(
-            0 => 'P.titulo',
-            1 => 'T.categoria',
-            2 => 'P.cantidad',
-            3 => 'P.precio'
+            0 => 'P.imagen',
+            1 => 'P.titulo',
+            2 => 'T.categoria',
+            3 => 'P.cantidad',
+            4 => 'P.precio'
         );
         $sql = "SELECT DISTINCT
-                idproducto,
-                titulo,
-                fk_idtipoproducto,
-                cantidad,
-                precio,
+                P.idproducto,
+                P.imagen,
+                P.titulo,
+                P.fk_idtipoproducto,
+                P.cantidad,
+                P.precio,
                 T.nombre as categoria
             FROM productos P
             INNER JOIN tipo_productos T ON P.fk_idtipoproducto = T.idtipoproducto
