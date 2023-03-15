@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Entidades\Carrito;
-use Illuminate\Http\Producto;
+use App\Entidades\Producto;
+use App\Entidades\Sucursal;
+use Illuminate\Http\Request;
 require app_path() . '/start/constants.php';
 
 
@@ -12,9 +14,14 @@ class ControladorWebCarrito extends Controller
     public function index()
     {
         $idCarrito=1;
+
         $carrito = new Carrito();
         $aCarritos = $carrito->obtenerPorId($idCarrito);
-        return view("web.carrito", compact("carrito", "aCarritos"));
+
+        $sucursal=new Sucursal();
+        $aSucursales = $sucursal->obtenerTodos();
+
+        return view("web.carrito", compact("aSucursales","carrito", "aCarritos"));
     }
 
     public function guardar(Request $request)
@@ -27,3 +34,4 @@ class ControladorWebCarrito extends Controller
         
     }
 }
+?>
