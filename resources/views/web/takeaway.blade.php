@@ -14,7 +14,7 @@
         <ul class="filters_menu">
             <li class="active" data-filter="*">Todos</li>
             @foreach($aCategorias as $categoria)
-            <li data-filter=".{{ $categoria->nombre }}">{{ $categoria->nombre}}</li>
+            <li data-filter=".{{$categoria->nombre}}">{{ $categoria->nombre}}</li>
             @endforeach
         </ul>
 
@@ -42,8 +42,8 @@
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}"></input>
                                         <input type="hidden" name="txtIdProducto" id="txtIdProducto" class="form-control" value="{{ $producto->idproducto }}" >
                                         <input type="number" name="txtCantidad" id="txtCantidad" class="form-control" value="0" style="width: 70px;" required>
+                                        <button type="submit" btn-carrito>Comprar</button>
                                     </form>
-                                    <button type="submit">Comprar</button>
                                 </div>
                             </div>
                         </div>

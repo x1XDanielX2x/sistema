@@ -35,6 +35,8 @@
                                           <button type="submit" name="btnIngresar">
                                                 Iniciar Sesion
                                           </button>
+                                          <a href="/registrarse">¿No tienes cuenta? Registrate</a>
+                                          <a href="/recuperar-clave">¿Olvidaste la contraseña?</a>
                                     </div>
                               </form>
                         </div>

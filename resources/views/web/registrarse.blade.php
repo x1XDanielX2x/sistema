@@ -1,4 +1,4 @@
-@extends("web.planilla")
+@extends("web.plantilla")
 
 @section("contenido")
 

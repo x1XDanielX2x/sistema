@@ -14,7 +14,7 @@ class Carrito extends Model{
       public $timestamps = false; //colocar fecha y hora ne la bbdd de la insersion, marcas de tiempo
 
       protected $fillable = [ //Campos(columnas) de la table 'clientes' en la BBDD
-            'idcarrito','fk_idcliente','fk_idproducto'
+            'idcarrito','fk_idcliente','fk_idproducto', 'cantidad'
       ];
 
       protected $hidden = []; //campos ocultos
@@ -25,7 +25,8 @@ class Carrito extends Model{
         $sql="SELECT 
                 idcarrito,
                 fk_idcliente,
-                fk_idproducto
+                fk_idproducto,
+                cantidad
             FROM carritos ORDER BY idcarrito ASC";
 
         $lstRetorno = DB::select($sql);
@@ -36,7 +37,8 @@ class Carrito extends Model{
         $sql="SELECT 
                 idcarrito,
                 fk_idcliente,
-                fk_idproducto
+                fk_idproducto,
+                cantidad
             FROM carritos WHERE idcarrito = $idCarrito";
 
         $lstRetorno = DB::select($sql);
@@ -45,6 +47,7 @@ class Carrito extends Model{
             $this->idcarrito = $lstRetorno[0]->idcarrito;
             $this->fk_idcliente = $lstRetorno[0]->fk_idcliente;
             $this->fk_idproducto = $lstRetorno[0]->fk_idproducto;
+            $this->cantidad = $lstRetorno[0]->cantidad;
             return $this;
         }
         return null;
@@ -55,6 +58,7 @@ class Carrito extends Model{
                 C.idcarrito,
                 C.fk_idcliente,
                 C.fk_idproducto,
+                C.cantidad,
                 P.titulo as producto,
                 P.precio as precio,
                 P.cantidad as cantidad
@@ -70,7 +74,8 @@ class Carrito extends Model{
     public function guardar(){
         $sql = "UPDATE carritos SET
                 fk_idcliente = $this->fk_idcliente,
-                fk_idproducto = $this-> fk_idproducto
+                fk_idproducto = $this-> fk_idproducto,
+                cantidad = $this->cantidad,
             WHERE idcarrito=?"; //se refiere a que lo busca en al parametro siguiente :
         $affected = DB::update($sql, [$this->idcarrito]);
     }
@@ -83,12 +88,14 @@ class Carrito extends Model{
     public function insertar(){
         $sql="INSERT INTO carritos (
                 fk_idcliente,
-                fk_idproducto
+                fk_idproducto,
+                cantidad
                 ) VALUES(
-                ?,?);";
+                ?,?,?);";
         $result = DB::insert($sql, [
             $this->fk_idcliente,
-            $this->fk_idproducto
+            $this->fk_idproducto,
+            $this->cantidad
         ]);
         return $this->idcarrito = DB::getPdo()->lastInsertId();
     }

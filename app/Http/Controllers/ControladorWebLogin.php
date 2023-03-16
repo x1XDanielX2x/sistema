@@ -32,10 +32,11 @@ class ControladorWebLogin extends Controller{
            
             $cliente = new Cliente();
             $cliente->obtenerPorCorreo($correo);
+            
             if($cliente->correo !=""){
                   if(password_verify($clave, $cliente->clave)){
                         Session::put("idCliente",$cliente->idcliente);
-                        return view('web.index', compact('aSucursales'));
+                        return redirect('/');
                   }else{
                         $mensaje = "Credenciales incorrectas";
                         return view('web.login', compact('mensaje','aSucursales'));
