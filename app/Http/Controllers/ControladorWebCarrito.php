@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use Session;
 require app_path() . '/start/constants.php';
 
-
 class ControladorWebCarrito extends Controller
 {
     public function index()

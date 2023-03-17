@@ -14,12 +14,10 @@ class ControladorWebLogin extends Controller{
 
       public function index(Request $request){
 
-            $titulo = "Ingresar al sistema";
-            
             $sucursal = new Sucursal();
             $aSucursales = $sucursal->obtenerTodos();
 
-            return view('web.login', compact('titulo' ,'aSucursales'));
+            return view('web.login', compact('aSucursales'));
 
       }
 
@@ -42,10 +40,10 @@ class ControladorWebLogin extends Controller{
                         return view('web.login', compact('mensaje','aSucursales'));
                   }
             }
-
       }
-      public function logout(){
-            Session::put("idCliente","");
+
+      public function logout(Request $request){
+            Session::put("idCliente","");//porque vacio????????????
             return redirect("/");
       }
 

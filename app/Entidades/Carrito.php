@@ -8,9 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Carrito extends Model{
 
       protected $table = 'carritos';//nombre de la tabla en bbdd
-      private $producto;
-      private $precio;
-      private $cantidad;
+      
       public $timestamps = false; //colocar fecha y hora ne la bbdd de la insersion, marcas de tiempo
 
       protected $fillable = [ //Campos(columnas) de la table 'clientes' en la BBDD
@@ -59,12 +57,13 @@ class Carrito extends Model{
                 C.fk_idcliente,
                 C.fk_idproducto,
                 C.cantidad,
-                P.titulo as producto,
-                P.precio as precio,
-                P.cantidad as cantidad
+                P.idproducto,
+                P.titulo,
+                P.precio,
+                P.imagen
             FROM carritos C
             INNER JOIN productos P ON C.fk_idproducto = P.idproducto;
-            WHERE idcarrito = $idCliente";
+            WHERE C.fk_idcliente == $idCliente";
 
         $lstRetorno = DB::select($sql);
 
@@ -85,6 +84,7 @@ class Carrito extends Model{
                 idcarrito=?";
         $affected = DB::delete($sql, [$this->idcarrito]);
     }
+
     public function insertar(){
         $sql="INSERT INTO carritos (
                 fk_idcliente,

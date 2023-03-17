@@ -18,30 +18,29 @@
                                     <table class="table">
                                           <thead>
                                                 <tr>
-                                                      <th></th>
-                                                      <th colspan="2">Titulo</th>
+                                                      
+                                                      <th colspan="2">Producto</th>
                                                       <th>Precio</th>
                                                       <th>Cantidad</th>
                                                       <th>Subtotal</th>
                                                 </tr>
                                           </thead>
                                           <tbody>
-                                                @foreach($aProductos as $producto)
+                                                @foreach($aCarritos as $carrito)
                                                 <tr>
                                                       <td>
-                                                            <img src="" class="img-tumbnail">
+                                                            <img src="/files/{{$carrito->imagen}}" class="img-tumbnail">
+                                                            {{$carrito->titulo}}
+                                                      </td>
+                                                      
+                                                      <td>
+                                                            {{number_format($carrito->precio, 0, ',','.')}}
                                                       </td>
                                                       <td>
-                                                            {{producto->titulo}}
+                                                            <input type="number" name="txtCantidad" id="txtCantidad" value="{{$carrito->cantidad}}">
                                                       </td>
                                                       <td>
-                                                            {{producto->precio}}
-                                                      </td>
-                                                      <td>
-                                                            {{producto->cantidad}}
-                                                      </td>
-                                                      <td>
-                                                            {{producto->subtotal}}
+                                                            {{$carrito->precio}}
                                                       </td>
                                                 </tr>
                                                 @endforeach
