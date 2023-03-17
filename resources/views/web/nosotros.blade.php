@@ -91,9 +91,11 @@
             <div class="col-3"></div>
             <div class="col-6 center">
                 <h2>Trabaja con nosotros</h2>
-                <form action="" method="POST">
+                <form action="" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}"></input>
+
                     <input type="text" name="txtNombre" id="txtNombre" placeholder="Nombre" class="form-control py-2">
-                    <input type="text" name="txtNombre" id="txtNombre" placeholder="Apellidos" class="form-control py-2" required>
+                    <input type="text" name="txtApellido" id="txtApellido" placeholder="Apellidos" class="form-control py-2" required>
                     <input type="email" name="txtCorreo" id="txtCorreo" placeholder="Correo electronico" class="form-control py-2" required>
                     <input type="text" name="txtTelefono" id="txtTelefono" placeholder="Numero de contacto" class="form-control py-2">
                     <label for="" class="pt-2">Hoja de vida: *</label>

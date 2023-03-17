@@ -25,6 +25,7 @@ class ControladorWebNosotros extends Controller
         $postulacion->apellido = $request->input("txtApellido");
         $postulacion->correo = $request->input("txtCorreo");
         $postulacion->telefono = $request->input("txtTelefono");
+        $postulacion->cv = "";
         //hoja de vida
         $postulacion->insertar();
 
