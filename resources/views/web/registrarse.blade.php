@@ -13,7 +13,7 @@
                   <input type="hidden" name="_token" value="{{ csrf_token() }}"></input>
                   <div class="col-md-6">
                         <div class="form_container">
-                              <form action="" method="post">
+                              <form action="" method="POST">
                                     <div>
                                           <label for="">Nombre: *</label>
                                           <input type="text" name="txtNombre" id="txtNombre" class="form-control" placeholder="Ingrese su nombre">
@@ -32,10 +32,14 @@
                                     </div>
                                     <div>
                                           <label for="">Documento: *</label>
-                                          <input type="text" name="txtDocumento" id="txtDocumento" class="form-control" placeholder="Ingrese su documento">
+                                          <input type="text" name="txtDni" id="txtDni" class="form-control" placeholder="Ingrese su documento">
+                                    </div>
+                                    <div>
+                                          <label for="">Contraseña: *</label>
+                                          <input type="password" name="txtClave" id="txtClave" class="form-control" placeholder="Ingresa tu contraseña">
                                     </div>
                                     <div class="btn_box">
-                                          <button type="submit">
+                                          <button type="submit" name="btnRegistrar" class="btn-primary">
                                                 Registrarse
                                           </button>
                                     </div>

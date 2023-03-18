@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Entidades\Cliente;
 use App\Entidades\Sucursal;
 use Illuminate\Http\Request;
+
 require app_path() . '/start/constants.php';
-use App\Entidades\Sistema\Patente;
-use App\Entidades\Sistema\Usuario;
+
 use Session;
 
 class ControladorWebRegistrarse extends Controller
@@ -19,7 +19,6 @@ class ControladorWebRegistrarse extends Controller
 
     public function registrarse(Request $request)
     {
-        $titulo = "Nuevo Registro";
 
         $entidad = new Cliente();
         $entidad->nombre = $request->input("txtNombre");
@@ -33,13 +32,13 @@ class ControladorWebRegistrarse extends Controller
         $aSucursales =$sucursal->obtenerTodos();
 
         if ($entidad->nombre == "" || $entidad->telefono == "" || $entidad->direccion == "" || $entidad->dni == "" || $entidad->correo == "" || $entidad->clave == "") {
+
             $msg["ESTADO"] = MSG_ERROR;
             $msg["MSG"] = "Complete todos los datos";
-            return view("web.registrarse", compact('titulo', 'msg', 'aSucursales'));
+            return view("web.registrarse", compact('msg', 'aSucursales'));
         } else {
-            $entidad->guardar();
-            $mensaje = "Registro Exitoso";
-            return view("web.login", compact('mensaje', "aSucursales"));
+            $entidad->insertar();
+            return redirect("/login");
         }
         
     }

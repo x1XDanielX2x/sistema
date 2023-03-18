@@ -26,9 +26,10 @@ Route::group(array('domain' => '127.0.0.1'), function () {
     Route::get('/nosotros', 'ControladorWebNosotros@index');
     Route::post('/nosotros', 'ControladorWebNosotros@guardar');
     Route::get('/contacto', 'ControladorWebContacto@index');
+    Route::post('/contacto', 'ControladorWebContacto@enviar');
     Route::get('/postulacion-gracias', 'ControladorWebPostulacionGracias@index');
     Route::get('/carrito', 'ControladorWebCarrito@index');
-    Route::post('/carrito', 'ControladorWebCarrito@comprar');
+    Route::post('/carrito', 'ControladorWebCarrito@procesar');
     Route::get('/mi-cuenta', 'ControladorWebMiCuenta@index');
     Route::post('/mi-cuenta', 'ControladorWebMiCuenta@guardar');
     Route::get('/cambiar-clave', 'ControladorWebCambiarClave@index');
@@ -38,9 +39,12 @@ Route::group(array('domain' => '127.0.0.1'), function () {
     Route::get('/logout', 'ControladorWebLogin@logout');
     Route::post('/login', 'ControladorWebLogin@ingresar');
     Route::get('/registrarse', 'ControladorWebRegistrarse@index');
-    Route::post('/registrarse', 'ControladorWebRegistrarse@Registrarse');
+    Route::post('/registrarse', 'ControladorWebRegistrarse@registrarse');
     Route::get('/recuperar-clave', 'ControladorWebRecuperarClave@index');
     Route::post('/recuperar-clave', 'ControladorWebRecuperarClave@recuperar');
+    Route::get('/mercado-pago/aprobado/{idPedido}', 'ControladorMercadoPago@aprobar');
+    Route::get('/mercado-pago/pendiente/{idPedido}', 'ControladorMercadoPago@pendiente');
+    Route::get('/mercado-pago/error/{idPedido}', 'ControladorMercadoPago@error');
 
 
 /* --------------------------------------------- */

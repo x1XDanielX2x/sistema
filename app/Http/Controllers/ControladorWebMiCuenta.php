@@ -6,7 +6,6 @@ use App\Entidades\Sucursal;
 use App\Entidades\Cliente;
 use App\Entidades\Pedido;
 
-use Illuminate\Support\Facades\Redis;
 use Illuminate\Http\Request;
 
 use Session;
@@ -37,21 +36,21 @@ class ControladorWebMiCuenta extends Controller{
 
       public function guardar(Request $request){
 
+            $idCliente = Session::get("idCliente");
+
+            $pedido = new Pedido();
+            $aPedidos = $pedido->obtenerPedidosPorCliente($idCliente);
+
             $cliente = new Cliente();
-            $cliente->idcliente = Session::get("idCliente");
-            $cliente->nombre = $request->input("txtNombre");//************** */
+            $cliente->idcliente = $idCliente;
+            $cliente->nombre = $request->input("txtNombre");
+            $cliente->telefono = $request->input("txtTelefono");
+            $cliente->correo = $request->input("txtCorreo");
+            $cliente->dni = $request->input("txtDocumento");
+            $cliente->direccion = $request->input("txtDireccion");
+            $cliente->guardar();
             
-            $clave = $_REQUEST["txtClave"];
-            
-            if($cliente->correo !=""){
-                  if(password_verify($clave, $cliente->clave)){
-                        Session::put("idCliente",$cliente->idcliente);
-                        return redirect('/');
-                  }else{
-                        $mensaje = "Credenciales incorrectas";
-                        return view('web.login', compact('mensaje','aSucursales'));
-                  }
-            }
+            return view("web.mi-cuenta",compact("cliente","aPedidos"));
 
       }
       public function logout(){

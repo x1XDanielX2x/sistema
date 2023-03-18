@@ -40,8 +40,49 @@
                                           </button>
                                     </div>
                               </form>
+                              <div><a href="/cambiar-clave">Cambiar contraseña</a></div>
                         </div>
                   </div>
+            </div>
+            <div class="row">
+                  <div class="col-12">
+                        <h2>
+                              Pedidos Activos
+                        </h2>
+                  </div>
+                  @if($aPedidos)
+                  <div class="col-12">
+                        
+                        <table class="table table-hover border">
+                              <thead>
+                                    <tr>
+                                    <th>Sucursal</th>
+                                    <th>Pedido</th>
+                                    <th>Estado Pedido</th>
+                                    <th>Fecha</th>
+                                    <th>Total</th>
+                                    </tr>
+                              </thead>
+                              <tbody>
+                                    @foreach($aPedidos as $pedido)
+                                          <tr>
+                                                <td>{{$pedido->Sucursal}}</td>
+                                                <td>{{$pedido->idpedido}}</td>
+                                                <td>{{$pedido->estado_del_pedido}}</td>
+                                                <td>{{$pedido->fecha}}</td>
+                                                <td>$ {{number_format($pedido->total,0,',','.')}}</td>
+                                          </tr>
+                                    @endforeach
+                              </tbody>
+                        </table>
+                  </div>
+                  @else
+                        <div class="col-12">
+                              <h4>
+                                    No tienes pedidos actualmente.
+                              </h4>
+                        </div>
+                  @endif
             </div>
       </div>
 </section>

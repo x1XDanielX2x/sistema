@@ -10,44 +10,37 @@
           Contactanos
         </h2>
       </div>
+      @if(isset($msg))
+
+            <div class="row">
+                  <div class="col-12 tex-center">
+                        <div class="alert alert-{{ $msg['err'] }}" role="alert">
+                              {{ $msg["mensaje"] }}
+                        </div>
+                  </div>
+            </div>
+
+            @endif
       <div class="row">
         <div class="col-md-6">
           <div class="form_container">
             <form action="">
               <div>
-                <input type="text" class="form-control" placeholder="Tu nombre" />
+                <input type="text" name="txtNombre" id="txtNombre" class="form-control" placeholder="Tu nombre" />
               </div>
               <div>
-                <input type="text" class="form-control" placeholder="Tu numero" />
+                <input type="text" name="txtTelefono" id="txtTelefono" class="form-control" placeholder="Tu numero" />
               </div>
               <div>
-                <input type="email" class="form-control" placeholder="Tu correo" />
+                <input type="email" name="txtCorreo" id="txtCorreo" class="form-control" placeholder="Tu correo" />
               </div>
+              
               <div>
-                <select class="form-control nice-select wide">
-                  <option value="" disabled selected>
-                    How many persons?
-                  </option>
-                  <option value="">
-                    2
-                  </option>
-                  <option value="">
-                    3
-                  </option>
-                  <option value="">
-                    4
-                  </option>
-                  <option value="">
-                    5
-                  </option>
-                </select>
-              </div>
-              <div>
-                <input type="date" class="form-control">
+                <textarea name="txtComentario" id="txtComentario" class="form-control" placeholder="Dejanos tu comentario"></textarea>
               </div>
               <div class="btn_box">
-                <button>
-                  Book Now
+                <button type="submit">
+                  Enviar
                 </button>
               </div>
             </form>

@@ -25,9 +25,22 @@ class ControladorWebNosotros extends Controller
         $postulacion->apellido = $request->input("txtApellido");
         $postulacion->correo = $request->input("txtCorreo");
         $postulacion->telefono = $request->input("txtTelefono");
-        $postulacion->cv = "";
+        $postulacion->cv = $request->input("archivo"); /** ------------------------------- */
         //hoja de vida
+
+        if($_FILES["archivo"]["error"]=== UPLOAD_ERR_OK){
+            $extension =pathinfo($_FILES["archivo"]["name"], PATHINFO_EXTENSION);
+            $nombre = date("Ymdhmsi").".$extension";
+            $archivo = $_FILES["archivo"]["tmp_name"];
+            if($extension== "doc" || $extension =="docx" || $extension=="pdf"){
+            move_uploaded_file($archivo, env('APP_PATH')."/public/files/$nombre");
+            }else{
+                return "";
+            }
+            $postulacion->cv = $nombre; /** ------------------------------- */
+        }
         $postulacion->insertar();
+
 
         $sucursal = new Sucursal();
         $aSucursales = $sucursal->obtenerTodos();

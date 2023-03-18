@@ -54,16 +54,16 @@
 
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav  mx-auto ">
-              <li class="nav-item active">
+              <li class="nav-item <?php echo (Request::path()=== "/")? "active":"" ?>">
                 <a class="nav-link" href="/">Inicio <!--<span class="sr-only">(current)</span>--></a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item <?php echo (Request::path()=== "takeaway")? "active":"" ?>">
                 <a class="nav-link" href="/takeaway">TakeAway</a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item <?php echo (Request::path()=== "nosotros")? "active":"" ?>">
                 <a class="nav-link" href="/nosotros">Nosotros</a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item <?php echo (Request::path()=== "contacto")? "active":"" ?>">
                 <a class="nav-link" href="/contacto">Contacto</a>
               </li>
             </ul>

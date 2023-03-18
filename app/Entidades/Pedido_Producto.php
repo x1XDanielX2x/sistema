@@ -11,7 +11,7 @@ class Pedido_Producto extends Model{
       public $timestamps = false; //colocar fecha y hora ne la bbdd de la insersion, marcas de tiempo
 
       protected $fillable = [ //Campos(columnas) de la table 'clientes' en la BBDD
-            'idpedidoproducto','fk_idproducto','fk_idpedido'
+            'idpedidoproducto','fk_idproducto','fk_idpedido','cantidad'
       ];
 
       protected $hidden = []; //campos ocultos
@@ -20,10 +20,11 @@ class Pedido_Producto extends Model{
 
     public function obtenerTodos(){
         $sql="SELECT 
-                idpedidoproducto,
+                idpedidoproductos,
                 fk_idproducto,
-                fk_idpedido
-            FROM pedido_productos ORDER BY idpedidoproducto ASC";
+                fk_idpedido,
+                cantidad
+            FROM pedido_productos ORDER BY idpedidoproductos ASC";
 
         $lstRetorno = DB::select($sql);
         return $lstRetorno;
@@ -31,10 +32,11 @@ class Pedido_Producto extends Model{
 
     public function obtenerPorId($idPedidoProducto){
         $sql="SELECT 
-                idpedidoproducto,
+                idpedidoproductos,
                 fk_idproducto,
-                fk_idpedido
-            FROM pedido_productos WHERE idpedidoproducto = $idPedidoProducto";
+                fk_idpedido,
+                cantidad
+            FROM pedido_productos WHERE idpedidoproductos = $idPedidoProducto";
 
         $lstRetorno = DB::select($sql);
 
@@ -42,6 +44,7 @@ class Pedido_Producto extends Model{
             $this->idpedidoproducto = $lstRetorno[0]->idpedidoproducto;
             $this->fk_idproducto = $lstRetorno[0]->fk_idproducto;
             $this->fk_idpedido = $lstRetorno[0]->fk_idpedido;
+            $this->cantidad = $lstRetorno[0]->cantidad;
             return $this;
         }
         return null;
@@ -51,8 +54,9 @@ class Pedido_Producto extends Model{
     public function guardar(){
         $sql = "UPDATE pedido_productos SET
                 fk_idproducto = $this->fk_idproducto,
-                fk_idpedido = $this-> fk_idpedido
-            WHERE idpedidoproducto=?"; //se refiere a que lo busca en al parametro siguiente :
+                fk_idpedido = $this->fk_idpedido,
+                cantidad = $this->cantidad
+            WHERE idpedidoproductos=?"; //se refiere a que lo busca en al parametro siguiente :
         $affected = DB::update($sql, [$this->idpedidoproducto]);
     }
 
@@ -64,14 +68,33 @@ class Pedido_Producto extends Model{
     public function insertar(){
         $sql="INSERT INTO pedido_productos (
                 fk_idproducto,
-                fk_idpedido
+                fk_idpedido,
+                cantidad
                 ) VALUES(
-                ?,?);";
+                ?,?,?);";
         $result = DB::insert($sql, [
             $this->fk_idproducto,
-            $this->fk_idpedido
+            $this->fk_idpedido,
+            $this->cantidad
         ]);
-        return $this->idpedidoproducto = DB::getPdo()->lastInsertId();
+        return $this->idpedidoproductos = DB::getPdo()->lastInsertId();
+    }
+
+    public function obtenerPorPedido($idPedido){
+        $sql="SELECT 
+                P.idpedidoproductos,
+                P.fk_idproducto,
+                P.fk_idpedido,
+                P.cantidad,
+                B.titulo,
+                B.imagen
+            FROM pedido_productos P 
+            INNER JOIN productos B ON P.fk_idproducto = B.idproducto
+            where P.fk_idpedido = $idPedido
+            ORDER BY idpedidoproductos ASC";
+
+        $lstRetorno = DB::select($sql);
+        return $lstRetorno;
     }
 }
 ?>

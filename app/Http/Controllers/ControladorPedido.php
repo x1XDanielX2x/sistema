@@ -5,6 +5,8 @@ use App\Entidades\Pedido;
 use App\Entidades\Cliente;
 use App\Entidades\Sucursal;
 use App\Entidades\Estado_Pedido;
+use App\Entidades\Pedido_Producto;
+
 use App\Entidades\Sistema\Patente;
 use App\Entidades\Sistema\Usuario;
 use Illuminate\http\Request;
@@ -83,8 +85,11 @@ class ControladorPedido extends Controller{
                     $estadopedido = new Estado_Pedido();
                     //$estadopedido->obtenerPorId($idPedido);
                     $aEstadoPedidos=$estadopedido->obtenerTodos();
+
+                    $pedidoproducto = new Pedido_Producto();
+                    $aPedidoProductos=$pedidoproducto->obtenerPorPedido($idPedido);
                     
-                    return view('sistema.pedido-nuevo', compact('titulo', 'pedido', 'aClientes', 'aSucursales', 'aEstadoPedidos'));
+                    return view('sistema.pedido-nuevo', compact('titulo', 'pedido', 'aClientes', 'aSucursales', 'aEstadoPedidos', 'aPedidoProductos'));
                 }
             } else {
                 return redirect('admin/login');

@@ -62,8 +62,8 @@ class Carrito extends Model{
                 P.precio,
                 P.imagen
             FROM carritos C
-            INNER JOIN productos P ON C.fk_idproducto = P.idproducto;
-            WHERE C.fk_idcliente == $idCliente";
+            INNER JOIN productos P ON C.fk_idproducto = P.idproducto
+            WHERE C.fk_idcliente = '$idCliente'";
 
         $lstRetorno = DB::select($sql);
 
@@ -98,6 +98,11 @@ class Carrito extends Model{
             $this->cantidad
         ]);
         return $this->idcarrito = DB::getPdo()->lastInsertId();
+    }
+    public function eliminarPorCliente($idCliente){
+        $sql = "DELETE FROM carritos WHERE
+                fk_idcliente=?";
+        $affected = DB::delete($sql, [$idCliente]);
     }
 }
 ?>
